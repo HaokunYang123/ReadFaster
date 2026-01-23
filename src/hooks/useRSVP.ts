@@ -44,7 +44,7 @@ export function useRSVP(): UseRSVPReturn {
   const [hasSavedSession, setHasSavedSession] = useState(false);
   const [originalText, setOriginalText] = useState('');
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wordsRef = useRef<string[]>([]);
   const indexRef = useRef(0);
   const wpmRef = useRef(300);
@@ -83,7 +83,7 @@ export function useRSVP(): UseRSVPReturn {
           wpm: wpmRef.current,
           savedAt: Date.now(),
         });
-      }, 5000); // Save every 5 seconds
+      }, 5000);
 
       return () => clearInterval(saveTimer);
     }
@@ -96,7 +96,11 @@ export function useRSVP(): UseRSVPReturn {
     }
   }, []);
 
-  const scheduleNextTick = useCallback(() => {
+  // Use a ref to hold the tick function to avoid stale closure issues
+  const tickRef = useRef<() => void>(() => {});
+
+  // Define the tick function
+  tickRef.current = () => {
     if (!isPlayingRef.current) return;
 
     const currentWords = wordsRef.current;
@@ -114,8 +118,8 @@ export function useRSVP(): UseRSVPReturn {
     // Calculate delay for CURRENT word (how long to show it)
     const currentWord = currentWords[currentIdx];
     const baseInterval = wpmToInterval(wpmRef.current);
-    const multiplier = getWordDelayMultiplier(currentWord);
-    const extraDelay = getLongWordExtraDelay(currentWord);
+    const multiplier = currentWord ? getWordDelayMultiplier(currentWord) : 1;
+    const extraDelay = currentWord ? getLongWordExtraDelay(currentWord) : 0;
     const delay = baseInterval * multiplier + extraDelay;
 
     timerRef.current = setTimeout(() => {
@@ -125,21 +129,15 @@ export function useRSVP(): UseRSVPReturn {
       setCurrentIndex(nextIndex);
       indexRef.current = nextIndex;
 
-      // Schedule next tick
-      scheduleNextTick();
+      // Schedule next tick using the ref
+      tickRef.current();
     }, delay);
-  }, []);
+  };
 
   const startTimer = useCallback(() => {
     stopTimer();
-    scheduleNextTick();
-  }, [stopTimer, scheduleNextTick]);
-
-  const adjustWpmRef = useRef<(delta: number) => void>(() => {});
-  const pauseInternalRef = useRef<() => void>(() => {});
-  const resumeInternalRef = useRef<() => void>(() => {});
-  const skipForwardInternalRef = useRef<() => void>(() => {});
-  const skipBackwardInternalRef = useRef<() => void>(() => {});
+    tickRef.current();
+  }, [stopTimer]);
 
   const adjustWpm = useCallback((delta: number) => {
     setWpmState((prev) => {
@@ -157,7 +155,7 @@ export function useRSVP(): UseRSVPReturn {
         return;
       }
 
-      // If starting fresh or restarting after completion
+      // Always set up words and reset position when starting
       if (words.length === 0 || isComplete) {
         setWords(tokenizedWords);
         wordsRef.current = tokenizedWords;
@@ -170,10 +168,10 @@ export function useRSVP(): UseRSVPReturn {
       setIsPlaying(true);
       isPlayingRef.current = true;
 
-      // Use setTimeout to ensure state is updated before starting timer
-      setTimeout(() => {
+      // Start timer after a microtask to ensure state is set
+      queueMicrotask(() => {
         startTimer();
-      }, 0);
+      });
     },
     [words.length, isComplete, startTimer]
   );
@@ -247,6 +245,13 @@ export function useRSVP(): UseRSVPReturn {
     indexRef.current = newIndex;
   }, []);
 
+  // Refs for keyboard handler
+  const adjustWpmRef = useRef(adjustWpm);
+  const pauseInternalRef = useRef(pauseInternal);
+  const resumeInternalRef = useRef(resumeInternal);
+  const skipForwardInternalRef = useRef(skipForwardInternal);
+  const skipBackwardInternalRef = useRef(skipBackwardInternal);
+
   // Keep function refs in sync
   useEffect(() => {
     adjustWpmRef.current = adjustWpm;
@@ -259,7 +264,6 @@ export function useRSVP(): UseRSVPReturn {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement
@@ -325,7 +329,6 @@ export function useRSVP(): UseRSVPReturn {
     wordsRef.current = tokenizedWords;
     setOriginalText(session.text);
 
-    // Ensure saved index is valid
     const safeIndex = Math.min(session.currentIndex, tokenizedWords.length - 1);
     setCurrentIndex(safeIndex);
     indexRef.current = safeIndex;
