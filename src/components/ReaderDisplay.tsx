@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { WordDisplay } from './WordDisplay';
-import { RSVPSettings } from '@/types';
 
 interface ReaderDisplayProps {
   word: string;
@@ -10,7 +9,6 @@ interface ReaderDisplayProps {
   total: number;
   progress: number;
   isComplete: boolean;
-  settings?: RSVPSettings;
 }
 
 export function ReaderDisplay({
@@ -19,7 +17,6 @@ export function ReaderDisplay({
   total,
   progress,
   isComplete,
-  settings,
 }: ReaderDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -42,26 +39,18 @@ export function ReaderDisplay({
             Complete!
           </div>
         ) : (
-          <WordDisplay
-            word={word}
-            containerRef={containerRef}
-            settings={settings}
-          />
+          <WordDisplay word={word} containerRef={containerRef} />
         )}
       </div>
 
       {/* Status bar */}
       <div className="flex justify-between items-center px-5 py-2.5 bg-white/5 rounded-lg mt-4 text-sm">
         <span>
-          Word:{' '}
-          <span className="font-semibold text-primary">
-            {total > 0 ? current + 1 : 0}
-          </span>{' '}
-          / <span>{total}</span>
+          Word: <span className="font-semibold text-primary">{total > 0 ? current + 1 : 0}</span> /{' '}
+          <span>{total}</span>
         </span>
         <span>
-          Progress: <span className="font-semibold text-primary">{progress}</span>
-          %
+          Progress: <span className="font-semibold text-primary">{progress}</span>%
         </span>
       </div>
 

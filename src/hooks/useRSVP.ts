@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { tokenize, wpmToInterval, calculatePivotIndex } from '@/utils/rsvp';
 
-const REWIND_AMOUNT = 5;
+const REWIND_AMOUNT = 5; // Words to rewind on pause
 
 interface UseRSVPReturn {
   words: string[];
@@ -19,11 +19,6 @@ interface UseRSVPReturn {
   pause: () => void;
   reset: () => void;
   setWpm: (wpm: number) => void;
-  jumpToPosition: (index: number) => void;
-  skipForward: () => void;
-  skipBackward: () => void;
-  loadSavedSession: () => boolean;
-  hasSavedSession: boolean;
 }
 
 export function useRSVP(): UseRSVPReturn {
@@ -95,7 +90,7 @@ export function useRSVP(): UseRSVPReturn {
     setIsPlaying(false);
     stopInterval();
 
-    // Rewind for context recovery
+    // Rewind 5 words for context recovery
     setCurrentIndex((prev) => {
       const newIndex = Math.max(0, prev - REWIND_AMOUNT);
       indexRef.current = newIndex;
@@ -137,28 +132,6 @@ export function useRSVP(): UseRSVPReturn {
     [isPlaying, stopInterval]
   );
 
-  const jumpToPosition = useCallback((index: number) => {
-    const safeIndex = Math.max(0, Math.min(index, wordsRef.current.length - 1));
-    setCurrentIndex(safeIndex);
-    indexRef.current = safeIndex;
-  }, []);
-
-  const skipForward = useCallback(() => {
-    const newIndex = Math.min(wordsRef.current.length - 1, indexRef.current + 10);
-    setCurrentIndex(newIndex);
-    indexRef.current = newIndex;
-  }, []);
-
-  const skipBackward = useCallback(() => {
-    const newIndex = Math.max(0, indexRef.current - 10);
-    setCurrentIndex(newIndex);
-    indexRef.current = newIndex;
-  }, []);
-
-  const loadSavedSession = useCallback((): boolean => {
-    return false;
-  }, []);
-
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -185,10 +158,5 @@ export function useRSVP(): UseRSVPReturn {
     pause,
     reset,
     setWpm,
-    jumpToPosition,
-    skipForward,
-    skipBackward,
-    loadSavedSession,
-    hasSavedSession: false,
   };
 }
