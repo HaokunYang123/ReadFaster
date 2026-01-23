@@ -4,6 +4,7 @@
  */
 
 let timerId = null;
+let delayedTimerId = null;
 let isRunning = false;
 
 // Message handler
@@ -19,18 +20,21 @@ self.onmessage = function(e) {
       break;
     case 'UPDATE_INTERVAL':
       if (isRunning) {
-        stopTimer();
-        startTimer(payload.interval);
+        clearCurrentTimer();
+        startTimerLoop(payload.interval);
       }
       break;
     case 'TICK_WITH_DELAY':
       // Schedule next tick with custom delay
       if (isRunning) {
-        stopTimer();
-        setTimeout(() => {
+        // Clear the current timer but keep isRunning = true
+        clearCurrentTimer();
+
+        // Schedule the delayed tick
+        delayedTimerId = setTimeout(() => {
           if (isRunning) {
             self.postMessage({ type: 'TICK' });
-            startTimer(payload.baseInterval);
+            startTimerLoop(payload.baseInterval);
           }
         }, payload.delay);
       }
@@ -40,7 +44,10 @@ self.onmessage = function(e) {
 
 function startTimer(interval) {
   isRunning = true;
+  startTimerLoop(interval);
+}
 
+function startTimerLoop(interval) {
   // Use recursive setTimeout for more precise timing than setInterval
   function tick() {
     if (!isRunning) return;
@@ -52,10 +59,18 @@ function startTimer(interval) {
   timerId = setTimeout(tick, interval);
 }
 
-function stopTimer() {
-  isRunning = false;
+function clearCurrentTimer() {
   if (timerId !== null) {
     clearTimeout(timerId);
     timerId = null;
   }
+  if (delayedTimerId !== null) {
+    clearTimeout(delayedTimerId);
+    delayedTimerId = null;
+  }
+}
+
+function stopTimer() {
+  isRunning = false;
+  clearCurrentTimer();
 }
