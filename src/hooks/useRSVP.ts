@@ -40,7 +40,7 @@ export function useRSVP(): UseRSVPReturn {
 
   // Use refs to avoid stale closures in interval
   const wordsLengthRef = useRef(0);
-  const intervalRef = useRef<number | null>(null);
+  const intervalIdRef = useRef<number | undefined>(undefined);
 
   // Keep ref in sync
   useEffect(() => {
@@ -68,38 +68,36 @@ export function useRSVP(): UseRSVPReturn {
     }
   }, [words.length, originalText, isPlaying, currentIndex, wpm]);
 
-  // Stop any running interval
-  const stopInterval = useCallback(() => {
-    if (intervalRef.current !== null) {
-      window.clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
   // Main playback effect
   useEffect(() => {
-    // Clean up any existing interval first
-    stopInterval();
-
     if (!isPlaying) {
+      // Clear interval when not playing
+      if (intervalIdRef.current !== undefined) {
+        console.log('[RSVP] Clearing interval because isPlaying is false');
+        window.clearInterval(intervalIdRef.current);
+        intervalIdRef.current = undefined;
+      }
       return;
     }
 
     const totalWords = wordsLengthRef.current;
     if (totalWords === 0) {
+      console.log('[RSVP] No words to play');
       return;
     }
 
     const interval = wpmToInterval(wpm);
+    console.log(`[RSVP] Starting interval with ${interval}ms delay, ${totalWords} words`);
 
-    intervalRef.current = window.setInterval(() => {
+    intervalIdRef.current = window.setInterval(() => {
       setCurrentIndex((prevIndex) => {
         const nextIndex = prevIndex + 1;
+        console.log(`[RSVP] Tick: ${prevIndex} -> ${nextIndex}, total: ${wordsLengthRef.current}`);
 
-        // Use ref for words length to avoid stale closure
         if (nextIndex >= wordsLengthRef.current) {
-          // Reached the end - stop the interval
-          stopInterval();
+          console.log('[RSVP] Reached end, stopping');
+          window.clearInterval(intervalIdRef.current);
+          intervalIdRef.current = undefined;
           setIsPlaying(false);
           setIsComplete(true);
           clearSession();
@@ -110,12 +108,21 @@ export function useRSVP(): UseRSVPReturn {
       });
     }, interval);
 
-    return stopInterval;
-  }, [isPlaying, wpm, stopInterval]);
+    // Cleanup function
+    return () => {
+      console.log('[RSVP] Effect cleanup - clearing interval');
+      if (intervalIdRef.current !== undefined) {
+        window.clearInterval(intervalIdRef.current);
+        intervalIdRef.current = undefined;
+      }
+    };
+  }, [isPlaying, wpm]);
 
   const start = useCallback((text: string) => {
     const tokenizedWords = tokenize(text);
     if (tokenizedWords.length === 0) return;
+
+    console.log(`[RSVP] start() called with ${tokenizedWords.length} words`);
 
     // Update ref immediately
     wordsLengthRef.current = tokenizedWords.length;
@@ -128,11 +135,13 @@ export function useRSVP(): UseRSVPReturn {
   }, []);
 
   const pause = useCallback(() => {
+    console.log('[RSVP] pause() called');
     setIsPlaying(false);
     setCurrentIndex((prev) => Math.max(0, prev - REWIND_AMOUNT));
   }, []);
 
   const reset = useCallback(() => {
+    console.log('[RSVP] reset() called');
     setIsPlaying(false);
     setWords([]);
     wordsLengthRef.current = 0;
@@ -191,6 +200,7 @@ export function useRSVP(): UseRSVPReturn {
       switch (e.code) {
         case 'Space':
           e.preventDefault();
+          console.log(`[RSVP] Space pressed, isPlaying=${isPlaying}, isComplete=${isComplete}`);
           if (isPlaying) {
             pause();
           } else if (wordsLengthRef.current > 0 && !isComplete) {
