@@ -2,15 +2,45 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { splitWordByPivot } from '@/utils/rsvp';
+import { RSVPSettings } from '@/types';
 
 interface WordDisplayProps {
   word: string;
   containerRef: React.RefObject<HTMLDivElement>;
+  settings?: RSVPSettings;
 }
 
-export function WordDisplay({ word, containerRef }: WordDisplayProps) {
+const fontFamilyMap = {
+  monospace: "'Courier New', monospace",
+  serif: 'Georgia, serif',
+  sans: 'Inter, system-ui, sans-serif',
+};
+
+const fontWeightMap = {
+  normal: 400,
+  medium: 500,
+  bold: 700,
+};
+
+const fontSizeMap = {
+  small: 36,
+  medium: 48,
+  large: 64,
+};
+
+export function WordDisplay({ word, containerRef, settings }: WordDisplayProps) {
   const [offset, setOffset] = useState<number | null>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
+
+  const fontFamily = settings?.fontFamily
+    ? fontFamilyMap[settings.fontFamily]
+    : fontFamilyMap.monospace;
+  const fontWeight = settings?.fontWeight
+    ? fontWeightMap[settings.fontWeight]
+    : fontWeightMap.medium;
+  const fontSize = settings?.fontSize
+    ? fontSizeMap[settings.fontSize]
+    : fontSizeMap.medium;
 
   useEffect(() => {
     if (!word || !containerRef.current) {
@@ -25,9 +55,9 @@ export function WordDisplay({ word, containerRef }: WordDisplayProps) {
     // Create temporary span to measure
     const measureSpan = document.createElement('span');
     measureSpan.style.cssText = `
-      font-family: 'Courier New', monospace;
-      font-size: 48px;
-      font-weight: 500;
+      font-family: ${fontFamily};
+      font-size: ${fontSize}px;
+      font-weight: ${fontWeight};
       position: absolute;
       visibility: hidden;
       white-space: nowrap;
@@ -47,13 +77,24 @@ export function WordDisplay({ word, containerRef }: WordDisplayProps) {
     // Calculate offset to center pivot
     const newOffset = containerCenter - beforeWidth - pivotWidth / 2;
     setOffset(newOffset);
-  }, [word, containerRef]);
+  }, [word, containerRef, fontFamily, fontSize, fontWeight]);
+
+  const style = {
+    fontFamily,
+    fontSize: `${fontSize}px`,
+    fontWeight,
+  };
 
   if (!word) {
     return (
       <div
-        className="word-display text-white/40 text-2xl"
-        style={{ left: '50%', transform: 'translateX(-50%)' }}
+        className="word-display text-white/40"
+        style={{
+          ...style,
+          fontSize: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
       >
         Ready to read
       </div>
@@ -66,6 +107,7 @@ export function WordDisplay({ word, containerRef }: WordDisplayProps) {
     <div
       className="word-display"
       style={{
+        ...style,
         left: offset !== null ? `${offset}px` : '50%',
         transform: offset === null ? 'translateX(-50%)' : 'none',
       }}
