@@ -40,6 +40,9 @@
 
 /* Word display specific styles */
 .word-display {
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: 500;
   white-space: nowrap;
   position: absolute;
   z-index: 2;
@@ -73,18 +76,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #ff6b6b;
-}
-
-/* Focus mode animations */
-.focus-enter {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
