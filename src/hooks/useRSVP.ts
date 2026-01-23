@@ -38,7 +38,14 @@ export function useRSVP(): UseRSVPReturn {
   const [hasSavedSession, setHasSavedSession] = useState(false);
   const [originalText, setOriginalText] = useState('');
 
+  // Use refs to avoid stale closures in interval
+  const wordsLengthRef = useRef(0);
   const intervalRef = useRef<number | null>(null);
+
+  // Keep ref in sync
+  useEffect(() => {
+    wordsLengthRef.current = words.length;
+  }, [words.length]);
 
   // Check for saved session on mount
   useEffect(() => {
@@ -61,9 +68,25 @@ export function useRSVP(): UseRSVPReturn {
     }
   }, [words.length, originalText, isPlaying, currentIndex, wpm]);
 
-  // Main playback effect - this is the core logic
+  // Stop any running interval
+  const stopInterval = useCallback(() => {
+    if (intervalRef.current !== null) {
+      window.clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  // Main playback effect
   useEffect(() => {
-    if (!isPlaying || words.length === 0) {
+    // Clean up any existing interval first
+    stopInterval();
+
+    if (!isPlaying) {
+      return;
+    }
+
+    const totalWords = wordsLengthRef.current;
+    if (totalWords === 0) {
       return;
     }
 
@@ -73,31 +96,29 @@ export function useRSVP(): UseRSVPReturn {
       setCurrentIndex((prevIndex) => {
         const nextIndex = prevIndex + 1;
 
-        if (nextIndex >= words.length) {
-          // Reached the end
-          window.clearInterval(intervalRef.current!);
-          intervalRef.current = null;
+        // Use ref for words length to avoid stale closure
+        if (nextIndex >= wordsLengthRef.current) {
+          // Reached the end - stop the interval
+          stopInterval();
           setIsPlaying(false);
           setIsComplete(true);
           clearSession();
-          return prevIndex; // Stay at last word
+          return prevIndex;
         }
 
         return nextIndex;
       });
     }, interval);
 
-    return () => {
-      if (intervalRef.current !== null) {
-        window.clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [isPlaying, wpm, words.length]);
+    return stopInterval;
+  }, [isPlaying, wpm, stopInterval]);
 
   const start = useCallback((text: string) => {
     const tokenizedWords = tokenize(text);
     if (tokenizedWords.length === 0) return;
+
+    // Update ref immediately
+    wordsLengthRef.current = tokenizedWords.length;
 
     setWords(tokenizedWords);
     setCurrentIndex(0);
@@ -108,13 +129,13 @@ export function useRSVP(): UseRSVPReturn {
 
   const pause = useCallback(() => {
     setIsPlaying(false);
-    // Rewind for context recovery
     setCurrentIndex((prev) => Math.max(0, prev - REWIND_AMOUNT));
   }, []);
 
   const reset = useCallback(() => {
     setIsPlaying(false);
     setWords([]);
+    wordsLengthRef.current = 0;
     setCurrentIndex(0);
     setIsComplete(false);
     setOriginalText('');
@@ -127,15 +148,12 @@ export function useRSVP(): UseRSVPReturn {
   }, []);
 
   const jumpToPosition = useCallback((index: number) => {
-    setCurrentIndex((prev) => {
-      const safeIndex = Math.max(0, Math.min(index, words.length - 1));
-      return safeIndex;
-    });
-  }, [words.length]);
+    setCurrentIndex(Math.max(0, Math.min(index, wordsLengthRef.current - 1)));
+  }, []);
 
   const skipForward = useCallback(() => {
-    setCurrentIndex((prev) => Math.min(words.length - 1, prev + FORWARD_AMOUNT));
-  }, [words.length]);
+    setCurrentIndex((prev) => Math.min(wordsLengthRef.current - 1, prev + FORWARD_AMOUNT));
+  }, []);
 
   const skipBackward = useCallback(() => {
     setCurrentIndex((prev) => Math.max(0, prev - FORWARD_AMOUNT));
@@ -148,6 +166,7 @@ export function useRSVP(): UseRSVPReturn {
     const tokenizedWords = tokenize(session.text);
     if (tokenizedWords.length === 0) return false;
 
+    wordsLengthRef.current = tokenizedWords.length;
     setWords(tokenizedWords);
     setOriginalText(session.text);
     const safeIndex = Math.min(session.currentIndex, tokenizedWords.length - 1);
@@ -174,10 +193,9 @@ export function useRSVP(): UseRSVPReturn {
           e.preventDefault();
           if (isPlaying) {
             pause();
-          } else if (words.length > 0 && !isComplete) {
+          } else if (wordsLengthRef.current > 0 && !isComplete) {
             setIsPlaying(true);
           } else if (isComplete) {
-            // Restart from beginning
             setCurrentIndex(0);
             setIsComplete(false);
             setIsPlaying(true);
@@ -204,7 +222,7 @@ export function useRSVP(): UseRSVPReturn {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, words.length, isComplete, pause, skipBackward, skipForward]);
+  }, [isPlaying, isComplete, pause, skipBackward, skipForward]);
 
   const currentWord = words[currentIndex] || '';
   const pivotIndex = currentWord ? calculatePivotIndex(currentWord) : 0;

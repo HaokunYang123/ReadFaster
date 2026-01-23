@@ -45,7 +45,7 @@ export const DEFAULT_SETTINGS: RSVPSettings = {
   fontFamily: 'monospace',
   fontWeight: 'medium',
   fontSize: 'medium',
-  focusModeEnabled: true,
+  focusModeEnabled: false,
 };
 
 // Library types
