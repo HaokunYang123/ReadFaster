@@ -3,7 +3,3 @@ export { ReaderDisplay } from './ReaderDisplay';
 export { Controls } from './Controls';
 export { TextInput } from './TextInput';
 export { Instructions } from './Instructions';
-export { SettingsModal } from './SettingsModal';
-export { Library } from './Library';
-export { UrlInput } from './UrlInput';
-export { FileInput } from './FileInput';
