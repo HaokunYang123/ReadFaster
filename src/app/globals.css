@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-dark to-dark-lighter min-h-screen text-white;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 text-lg font-bold rounded-lg cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-light hover:-translate-y-0.5;
+  }
+
+  .btn-warning {
+    @apply bg-yellow-500 text-dark hover:bg-yellow-400;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-600 text-white hover:bg-gray-500;
+  }
+
+  .input-range {
+    @apply w-48 h-2 appearance-none bg-white/20 rounded cursor-pointer;
+  }
+
+  .input-range::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 bg-primary rounded-full cursor-pointer;
+  }
+
+  .input-range::-moz-range-thumb {
+    @apply w-5 h-5 bg-primary rounded-full cursor-pointer border-none;
+  }
+}
+
+/* Word display specific styles */
+.word-display {
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: 500;
+  white-space: nowrap;
+  position: absolute;
+  z-index: 2;
+}
+
+.word-display .pivot {
+  color: #FF0000;
+  font-weight: bold;
+}
+
+.word-display .before-pivot,
+.word-display .after-pivot {
+  color: #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e94560;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b6b;
+}
