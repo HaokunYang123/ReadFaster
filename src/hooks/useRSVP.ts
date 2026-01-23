@@ -41,6 +41,7 @@ export function useRSVP(): UseRSVPReturn {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const wordsRef = useRef<string[]>([]);
   const indexRef = useRef(0);
+  const wpmRef = useRef(wpm);
 
   // Keep refs in sync with state
   useEffect(() => {
@@ -50,6 +51,10 @@ export function useRSVP(): UseRSVPReturn {
   useEffect(() => {
     indexRef.current = currentIndex;
   }, [currentIndex]);
+
+  useEffect(() => {
+    wpmRef.current = wpm;
+  }, [wpm]);
 
   // Check for saved session on mount
   useEffect(() => {
@@ -80,10 +85,13 @@ export function useRSVP(): UseRSVPReturn {
   }, []);
 
   const startInterval = useCallback(() => {
-    const interval = wpmToInterval(wpm);
+    // Clear any existing interval first
+    stopInterval();
+
+    const interval = wpmToInterval(wpmRef.current);
 
     intervalRef.current = setInterval(() => {
-      if (indexRef.current < wordsRef.current.length - 1) {
+      if (indexRef.current < wordsRef.current.length) {
         setCurrentIndex((prev) => prev + 1);
         indexRef.current += 1;
       } else {
@@ -93,7 +101,7 @@ export function useRSVP(): UseRSVPReturn {
         clearSession();
       }
     }, interval);
-  }, [wpm, stopInterval]);
+  }, [stopInterval]);
 
   const start = useCallback(
     (text: string) => {
@@ -154,7 +162,7 @@ export function useRSVP(): UseRSVPReturn {
         const interval = wpmToInterval(newWpm);
 
         intervalRef.current = setInterval(() => {
-          if (indexRef.current < wordsRef.current.length - 1) {
+          if (indexRef.current < wordsRef.current.length) {
             setCurrentIndex((prev) => prev + 1);
             indexRef.current += 1;
           } else {
