@@ -44,7 +44,7 @@ export function useRSVP(): UseRSVPReturn {
   const [hasSavedSession, setHasSavedSession] = useState(false);
   const [originalText, setOriginalText] = useState('');
 
-  const workerRef = useRef<Worker | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const wordsRef = useRef<string[]>([]);
   const indexRef = useRef(0);
   const wpmRef = useRef(300);
@@ -89,57 +89,51 @@ export function useRSVP(): UseRSVPReturn {
     }
   }, [words.length, originalText]);
 
-  // Initialize Web Worker
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      workerRef.current = new Worker('/rsvp-worker.js');
-
-      workerRef.current.onmessage = (e) => {
-        if (e.data.type === 'TICK' && isPlayingRef.current) {
-          const currentWords = wordsRef.current;
-          const currentIdx = indexRef.current;
-
-          if (currentIdx < currentWords.length - 1) {
-            const nextIndex = currentIdx + 1;
-            setCurrentIndex(nextIndex);
-            indexRef.current = nextIndex;
-
-            // Calculate dynamic delay for next word
-            const nextWord = currentWords[nextIndex];
-            if (nextWord) {
-              const baseInterval = wpmToInterval(wpmRef.current);
-              const multiplier = getWordDelayMultiplier(nextWord);
-              const extraDelay = getLongWordExtraDelay(nextWord);
-              const totalDelay = baseInterval * multiplier + extraDelay;
-
-              // If delay differs significantly from base, use custom timing
-              if (totalDelay > baseInterval * 1.1) {
-                workerRef.current?.postMessage({
-                  type: 'TICK_WITH_DELAY',
-                  payload: {
-                    delay: totalDelay,
-                    baseInterval,
-                  },
-                });
-              }
-            }
-          } else {
-            // Reached the end
-            workerRef.current?.postMessage({ type: 'STOP' });
-            setIsPlaying(false);
-            isPlayingRef.current = false;
-            setIsComplete(true);
-            clearSession();
-          }
-        }
-      };
-
-      return () => {
-        workerRef.current?.terminate();
-        workerRef.current = null;
-      };
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
     }
   }, []);
+
+  const scheduleNextTick = useCallback(() => {
+    if (!isPlayingRef.current) return;
+
+    const currentWords = wordsRef.current;
+    const currentIdx = indexRef.current;
+
+    if (currentIdx >= currentWords.length - 1) {
+      // Reached the end
+      setIsPlaying(false);
+      isPlayingRef.current = false;
+      setIsComplete(true);
+      clearSession();
+      return;
+    }
+
+    // Calculate delay for CURRENT word (how long to show it)
+    const currentWord = currentWords[currentIdx];
+    const baseInterval = wpmToInterval(wpmRef.current);
+    const multiplier = getWordDelayMultiplier(currentWord);
+    const extraDelay = getLongWordExtraDelay(currentWord);
+    const delay = baseInterval * multiplier + extraDelay;
+
+    timerRef.current = setTimeout(() => {
+      if (!isPlayingRef.current) return;
+
+      const nextIndex = indexRef.current + 1;
+      setCurrentIndex(nextIndex);
+      indexRef.current = nextIndex;
+
+      // Schedule next tick
+      scheduleNextTick();
+    }, delay);
+  }, []);
+
+  const startTimer = useCallback(() => {
+    stopTimer();
+    scheduleNextTick();
+  }, [stopTimer, scheduleNextTick]);
 
   const adjustWpmRef = useRef<(delta: number) => void>(() => {});
   const pauseInternalRef = useRef<() => void>(() => {});
@@ -151,29 +145,8 @@ export function useRSVP(): UseRSVPReturn {
     setWpmState((prev) => {
       const newWpm = Math.max(100, Math.min(1000, prev + delta));
       wpmRef.current = newWpm;
-
-      // Update worker interval if playing
-      if (isPlayingRef.current && workerRef.current) {
-        workerRef.current.postMessage({
-          type: 'UPDATE_INTERVAL',
-          payload: { interval: wpmToInterval(newWpm) },
-        });
-      }
-
       return newWpm;
     });
-  }, []);
-
-  const startWorker = useCallback(() => {
-    const interval = wpmToInterval(wpmRef.current);
-    workerRef.current?.postMessage({
-      type: 'START',
-      payload: { interval },
-    });
-  }, []);
-
-  const stopWorker = useCallback(() => {
-    workerRef.current?.postMessage({ type: 'STOP' });
   }, []);
 
   const start = useCallback(
@@ -196,9 +169,13 @@ export function useRSVP(): UseRSVPReturn {
 
       setIsPlaying(true);
       isPlayingRef.current = true;
-      startWorker();
+
+      // Use setTimeout to ensure state is updated before starting timer
+      setTimeout(() => {
+        startTimer();
+      }, 0);
     },
-    [words.length, isComplete, startWorker]
+    [words.length, isComplete, startTimer]
   );
 
   const resumeInternal = useCallback(() => {
@@ -206,13 +183,13 @@ export function useRSVP(): UseRSVPReturn {
 
     setIsPlaying(true);
     isPlayingRef.current = true;
-    startWorker();
-  }, [startWorker]);
+    startTimer();
+  }, [startTimer]);
 
   const pauseInternal = useCallback(() => {
     setIsPlaying(false);
     isPlayingRef.current = false;
-    stopWorker();
+    stopTimer();
 
     // Rewind for context recovery
     setCurrentIndex((prev) => {
@@ -220,7 +197,7 @@ export function useRSVP(): UseRSVPReturn {
       indexRef.current = newIndex;
       return newIndex;
     });
-  }, [stopWorker]);
+  }, [stopTimer]);
 
   const pause = useCallback(() => {
     pauseInternal();
@@ -229,7 +206,7 @@ export function useRSVP(): UseRSVPReturn {
   const reset = useCallback(() => {
     setIsPlaying(false);
     isPlayingRef.current = false;
-    stopWorker();
+    stopTimer();
     setWords([]);
     wordsRef.current = [];
     setCurrentIndex(0);
@@ -238,19 +215,11 @@ export function useRSVP(): UseRSVPReturn {
     setOriginalText('');
     clearSession();
     setHasSavedSession(false);
-  }, [stopWorker]);
+  }, [stopTimer]);
 
   const setWpm = useCallback((newWpm: number) => {
     setWpmState(newWpm);
     wpmRef.current = newWpm;
-
-    // Update worker interval if playing
-    if (isPlayingRef.current && workerRef.current) {
-      workerRef.current.postMessage({
-        type: 'UPDATE_INTERVAL',
-        payload: { interval: wpmToInterval(newWpm) },
-      });
-    }
   }, []);
 
   const jumpToPosition = useCallback((index: number) => {
@@ -329,6 +298,13 @@ export function useRSVP(): UseRSVPReturn {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopTimer();
+    };
+  }, [stopTimer]);
 
   const skipForward = useCallback(() => {
     skipForwardInternal();
