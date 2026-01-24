@@ -10,6 +10,7 @@ interface FileInputProps {
 export function FileInput({ onFileLoad, disabled }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState('');
   const [error, setError] = useState('');
 
   const handleClick = () => {
@@ -22,6 +23,7 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
 
     setIsLoading(true);
     setError('');
+    setLoadingStatus('Reading file...');
 
     try {
       const text = await readFile(file);
@@ -34,6 +36,7 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
       setError(e instanceof Error ? e.message : 'Failed to read file');
     } finally {
       setIsLoading(false);
+      setLoadingStatus('');
       // Reset input so same file can be selected again
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -43,6 +46,12 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
 
   const readFile = async (file: File): Promise<string> => {
     const extension = file.name.split('.').pop()?.toLowerCase();
+    const mimeType = file.type;
+
+    // Check if it's an image
+    if (mimeType.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp'].includes(extension || '')) {
+      return readImageWithOCR(file);
+    }
 
     switch (extension) {
       case 'txt':
@@ -66,7 +75,25 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
     });
   };
 
+  const readImageWithOCR = async (file: File): Promise<string> => {
+    setLoadingStatus('Performing OCR on image...');
+
+    const Tesseract = await import('tesseract.js');
+
+    const result = await Tesseract.recognize(file, 'eng', {
+      logger: (m) => {
+        if (m.status === 'recognizing text') {
+          setLoadingStatus(`OCR: ${Math.round(m.progress * 100)}%`);
+        }
+      },
+    });
+
+    return result.data.text;
+  };
+
   const readPdfFile = async (file: File): Promise<string> => {
+    setLoadingStatus('Extracting text from PDF...');
+
     // Dynamic import of pdf.js
     const pdfjsLib = await import('pdfjs-dist');
 
@@ -79,6 +106,7 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
     const textParts: string[] = [];
 
     for (let i = 1; i <= pdf.numPages; i++) {
+      setLoadingStatus(`Reading page ${i}/${pdf.numPages}...`);
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
       const pageText = textContent.items
@@ -92,10 +120,68 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
       textParts.push(pageText);
     }
 
+    const extractedText = textParts.join('\n\n').trim();
+
+    // If no text was extracted, the PDF might be scanned - try OCR
+    if (extractedText.length < 50) {
+      setLoadingStatus('No text found, trying OCR...');
+      return await ocrPdfPages(pdf);
+    }
+
+    return extractedText;
+  };
+
+  const ocrPdfPages = async (pdf: any): Promise<string> => {
+    const Tesseract = await import('tesseract.js');
+    const textParts: string[] = [];
+
+    for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) { // Limit to 20 pages for performance
+      setLoadingStatus(`OCR page ${i}/${Math.min(pdf.numPages, 20)}...`);
+
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better OCR
+
+      // Create canvas to render PDF page
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (!context) continue;
+
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport,
+      }).promise;
+
+      // Convert canvas to blob for OCR
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), 'image/png');
+      });
+
+      const result = await Tesseract.recognize(blob, 'eng', {
+        logger: (m) => {
+          if (m.status === 'recognizing text') {
+            setLoadingStatus(`OCR page ${i}: ${Math.round(m.progress * 100)}%`);
+          }
+        },
+      });
+
+      if (result.data.text.trim()) {
+        textParts.push(result.data.text);
+      }
+    }
+
+    if (pdf.numPages > 20) {
+      textParts.push(`\n\n[Note: Only first 20 pages were processed. PDF has ${pdf.numPages} pages total.]`);
+    }
+
     return textParts.join('\n\n');
   };
 
   const readEpubFile = async (file: File): Promise<string> => {
+    setLoadingStatus('Extracting text from ePub...');
+
     const JSZip = (await import('jszip')).default;
 
     const arrayBuffer = await file.arrayBuffer();
@@ -138,7 +224,7 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".txt,.md,.pdf,.epub"
+        accept=".txt,.md,.pdf,.epub,.png,.jpg,.jpeg,.webp,.gif,.bmp,image/*"
         onChange={handleFileChange}
         className="hidden"
       />
@@ -147,7 +233,7 @@ export function FileInput({ onFileLoad, disabled }: FileInputProps) {
         disabled={disabled || isLoading}
         className="px-4 py-2 bg-white/10 text-white rounded-lg text-sm hover:bg-white/20 disabled:opacity-50"
       >
-        {isLoading ? 'Loading...' : 'Upload File'}
+        {isLoading ? loadingStatus || 'Loading...' : 'Upload File'}
       </button>
       {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
     </div>

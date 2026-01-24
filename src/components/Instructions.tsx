@@ -2,7 +2,7 @@
 
 export function Instructions() {
   const instructions = [
-    'Paste your text, upload a file (TXT, PDF, ePub), or fetch from URL',
+    'Paste your text, upload a file (TXT, PDF, ePub, images), or fetch from URL',
     'Adjust the reading speed using the WPM slider (100-1000 words per minute)',
     'Click "Start" to begin the RSVP reading sequence',
     'The red letter marks the Optimal Recognition Point (ORP) - keep your eyes fixed on it',
