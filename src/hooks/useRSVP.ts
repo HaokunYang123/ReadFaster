@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { tokenize, wpmToInterval, calculatePivotIndex } from '@/utils/rsvp';
 
 const REWIND_AMOUNT = 5; // Words to rewind on pause
+const SKIP_AMOUNT = 10; // Words to skip forward/backward
 
 interface UseRSVPReturn {
   words: string[];
@@ -19,6 +20,8 @@ interface UseRSVPReturn {
   pause: () => void;
   reset: () => void;
   setWpm: (wpm: number) => void;
+  skipForward: () => void;
+  skipBackward: () => void;
 }
 
 export function useRSVP(): UseRSVPReturn {
@@ -132,6 +135,19 @@ export function useRSVP(): UseRSVPReturn {
     [isPlaying, stopInterval]
   );
 
+  const skipForward = useCallback(() => {
+    if (wordsRef.current.length === 0) return;
+    const newIndex = Math.min(wordsRef.current.length - 1, indexRef.current + SKIP_AMOUNT);
+    setCurrentIndex(newIndex);
+    indexRef.current = newIndex;
+  }, []);
+
+  const skipBackward = useCallback(() => {
+    const newIndex = Math.max(0, indexRef.current - SKIP_AMOUNT);
+    setCurrentIndex(newIndex);
+    indexRef.current = newIndex;
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -158,5 +174,7 @@ export function useRSVP(): UseRSVPReturn {
     pause,
     reset,
     setWpm,
+    skipForward,
+    skipBackward,
   };
 }
