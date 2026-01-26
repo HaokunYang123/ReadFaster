@@ -39,17 +39,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOCUS-01 | — | Pending |
-| FOCUS-02 | — | Pending |
-| PIVOT-01 | — | Pending |
-| PIVOT-02 | — | Pending |
-| PIVOT-03 | — | Pending |
+| FOCUS-01 | Phase 1 | Pending |
+| FOCUS-02 | Phase 1 | Pending |
+| PIVOT-01 | Phase 2 | Pending |
+| PIVOT-02 | Phase 2 | Pending |
+| PIVOT-03 | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 5 total
-- Mapped to phases: 0
-- Unmapped: 5
+- Mapped to phases: 5
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-26*
-*Last updated: 2026-01-26 after initial definition*
+*Last updated: 2026-01-26 after roadmap creation*
