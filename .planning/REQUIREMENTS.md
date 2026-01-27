@@ -9,8 +9,8 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Focus Mode
 
-- [ ] **FOCUS-01**: Reading display automatically enters focus mode when playback starts (hides all other UI)
-- [ ] **FOCUS-02**: Focus mode exits when user pauses or reading completes
+- [x] **FOCUS-01**: Reading display automatically enters focus mode when playback starts (hides all other UI)
+- [x] **FOCUS-02**: Focus mode exits when user pauses or reading completes
 
 ### Pivot Highlighting
 
@@ -39,8 +39,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOCUS-01 | Phase 1 | Pending |
-| FOCUS-02 | Phase 1 | Pending |
+| FOCUS-01 | Phase 1 | Complete |
+| FOCUS-02 | Phase 1 | Complete |
 | PIVOT-01 | Phase 2 | Pending |
 | PIVOT-02 | Phase 2 | Pending |
 | PIVOT-03 | Phase 2 | Pending |
@@ -52,4 +52,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-26*
-*Last updated: 2026-01-26 after roadmap creation*
+*Last updated: 2026-01-27 after Phase 1 completion*
