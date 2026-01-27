@@ -1,14 +1,15 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { splitWordByPivot } from '@/utils/rsvp';
 
 interface WordDisplayProps {
   word: string;
   containerRef: React.RefObject<HTMLDivElement>;
+  onPause?: () => void;
 }
 
-export function WordDisplay({ word, containerRef }: WordDisplayProps) {
+export function WordDisplay({ word, containerRef, onPause }: WordDisplayProps) {
   const [offset, setOffset] = useState<number | null>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
 
@@ -49,11 +50,26 @@ export function WordDisplay({ word, containerRef }: WordDisplayProps) {
     setOffset(newOffset);
   }, [word, containerRef]);
 
+  const handleClick = useCallback(() => {
+    if (onPause) {
+      onPause();
+    }
+  }, [onPause]);
+
   if (!word) {
     return (
       <div
-        className="word-display text-white/40 text-2xl"
+        className="word-display text-white/40 text-2xl cursor-pointer"
         style={{ left: '50%', transform: 'translateX(-50%)' }}
+        onClick={handleClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
       >
         Ready to read
       </div>
@@ -64,10 +80,19 @@ export function WordDisplay({ word, containerRef }: WordDisplayProps) {
 
   return (
     <div
-      className="word-display"
+      className="word-display cursor-pointer"
       style={{
         left: offset !== null ? `${offset}px` : '50%',
         transform: offset === null ? 'translateX(-50%)' : 'none',
+      }}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
       }}
     >
       <span className="before-pivot">{before}</span>

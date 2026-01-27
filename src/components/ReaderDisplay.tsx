@@ -9,6 +9,7 @@ interface ReaderDisplayProps {
   total: number;
   progress: number;
   isComplete: boolean;
+  onPause?: () => void;
 }
 
 export function ReaderDisplay({
@@ -17,6 +18,7 @@ export function ReaderDisplay({
   total,
   progress,
   isComplete,
+  onPause,
 }: ReaderDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +41,7 @@ export function ReaderDisplay({
             Complete!
           </div>
         ) : (
-          <WordDisplay word={word} containerRef={containerRef} />
+          <WordDisplay word={word} containerRef={containerRef} onPause={onPause} />
         )}
       </div>
 
