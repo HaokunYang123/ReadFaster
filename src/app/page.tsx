@@ -218,17 +218,22 @@ export default function Home() {
 
         {/* Reader Display - always visible, enhanced in focus mode */}
         <div
-          className={`transition-all duration-300 motion-reduce:transition-none ${
-            isFocusMode ? 'fixed inset-0 z-40 flex items-center justify-center bg-dark p-8' : ''
+          className={`transition-all duration-200 motion-reduce:transition-none ${
+            isFocusMode
+              ? 'fixed inset-0 z-40 flex items-center justify-center bg-dark/95 p-8'
+              : ''
           }`}
         >
-          <div className={isFocusMode ? 'w-full max-w-4xl' : ''}>
+          <div className={`transition-transform duration-200 motion-reduce:transition-none ${
+            isFocusMode ? 'w-full max-w-4xl scale-110 sm:scale-125' : ''
+          }`}>
             <ReaderDisplay
               word={currentWord}
               current={currentIndex}
               total={totalWords}
               progress={progress}
               isComplete={isComplete}
+              onPause={pause}
             />
           </div>
         </div>
