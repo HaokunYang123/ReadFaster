@@ -19,6 +19,7 @@ import { SavedText } from '@/types';
 export default function Home() {
   const [text, setText] = useState('');
   const [showSettings, setShowSettings] = useState(false);
+  const [isDebouncing, setIsDebouncing] = useState(false);
 
   const {
     currentWord,
@@ -74,6 +75,18 @@ export default function Home() {
     setText(fileText);
   }, []);
 
+  const handlePlayPause = useCallback(() => {
+    if (isDebouncing) return;
+    setIsDebouncing(true);
+    setTimeout(() => setIsDebouncing(false), 200);
+
+    if (isPlaying) {
+      pause();
+    } else if (text.trim()) {
+      start(text);
+    }
+  }, [isDebouncing, isPlaying, text, pause, start]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -88,6 +101,9 @@ export default function Home() {
       switch (e.code) {
         case 'Space':
           e.preventDefault();
+          if (isDebouncing) return;
+          setIsDebouncing(true);
+          setTimeout(() => setIsDebouncing(false), 200);
           if (isPlaying) {
             pause();
           } else if (words.length > 0 && !isComplete) {
@@ -117,7 +133,7 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying, isComplete, words.length, text, wpm, pause, start, skipBackward, skipForward, setWpm]);
+  }, [isPlaying, isComplete, words.length, text, wpm, isDebouncing, pause, start, skipBackward, skipForward, setWpm]);
 
   const hasWords = words.length > 0;
   const hasText = text.trim().length > 0;
@@ -137,7 +153,12 @@ export default function Home() {
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-5xl font-bold text-primary">ReadFaster</h1>
             <button
-              onClick={() => setShowSettings(true)}
+              onClick={() => {
+                if (isPlaying) {
+                  pause();
+                }
+                setShowSettings(true);
+              }}
               className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               title="Settings"
             >
