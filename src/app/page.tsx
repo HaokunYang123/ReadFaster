@@ -123,14 +123,14 @@ export default function Home() {
   const hasText = text.trim().length > 0;
 
   // Focus mode: hide UI when playing
-  const isFocusMode = isPlaying && settings.focusModeEnabled;
+  const isFocusMode = isPlaying && !isComplete;
 
   return (
     <main className="min-h-screen p-5">
       <div className="max-w-4xl mx-auto">
         {/* Header - hidden in focus mode */}
         <div
-          className={`transition-opacity duration-300 ${
+          className={`transition-opacity duration-300 motion-reduce:transition-none ${
             isFocusMode ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
@@ -197,7 +197,7 @@ export default function Home() {
 
         {/* Reader Display - always visible, enhanced in focus mode */}
         <div
-          className={`transition-all duration-300 ${
+          className={`transition-all duration-300 motion-reduce:transition-none ${
             isFocusMode ? 'fixed inset-0 z-40 flex items-center justify-center bg-dark p-8' : ''
           }`}
         >
@@ -209,20 +209,12 @@ export default function Home() {
               progress={progress}
               isComplete={isComplete}
             />
-
-            {/* Exit focus mode hint */}
-            {isFocusMode && (
-              <p className="text-center text-white/40 text-sm mt-4">
-                Press <kbd className="px-2 py-1 bg-white/10 rounded">Space</kbd> to
-                pause and exit focus mode
-              </p>
-            )}
           </div>
         </div>
 
         {/* Instructions - hidden in focus mode */}
         <div
-          className={`transition-opacity duration-300 ${
+          className={`transition-opacity duration-300 motion-reduce:transition-none ${
             isFocusMode ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
