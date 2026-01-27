@@ -26,10 +26,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. When user pauses reading, full UI returns (controls, settings, library accessible)
   3. When reading completes (reaches end), full UI returns automatically
   4. Focus mode state does not persist to localStorage (auto-behavior, not a setting)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- TBD during phase planning
+- [ ] 01-01-PLAN.md — Remove focus mode toggle, implement auto-activation based on playback state
+- [ ] 01-02-PLAN.md — Add debouncing, click-to-pause, auto-pause settings, enhanced focus mode styling
 
 ### Phase 2: Pivot Customization
 **Goal**: User can customize pivot letter highlight appearance via settings
@@ -53,5 +54,5 @@ Phases execute in numeric order: 1 → 2
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Focus Mode Auto-Activation | 0/TBD | Not started | - |
+| 1. Focus Mode Auto-Activation | 0/2 | Planned | - |
 | 2. Pivot Customization | 0/TBD | Not started | - |
