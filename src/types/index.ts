@@ -38,14 +38,12 @@ export interface RSVPSettings {
   fontFamily: 'monospace' | 'serif' | 'sans';
   fontWeight: 'normal' | 'medium' | 'bold';
   fontSize: 'small' | 'medium' | 'large';
-  focusModeEnabled: boolean;
 }
 
 export const DEFAULT_SETTINGS: RSVPSettings = {
   fontFamily: 'monospace',
   fontWeight: 'medium',
   fontSize: 'medium',
-  focusModeEnabled: false,
 };
 
 // Library types
