@@ -31,7 +31,15 @@ Users can read text faster by focusing on one word at a time with the pivot lett
 
 ### Active
 
-(None yet — next milestone goals TBD)
+**Milestone v1.1: Reliability & Testing**
+
+- [ ] Comprehensive test suite with Vitest
+- [ ] Unit tests for all utility functions (rsvp.ts, storage.ts)
+- [ ] Integration tests for React components and hooks
+- [ ] E2E tests for critical user workflows
+- [ ] Multi-language text handling verification (CJK, RTL, accented, emoji)
+- [ ] Edge case coverage (empty, single word, very long, special chars)
+- [ ] Pivot algorithm validation across all word types
 
 ### Out of Scope
 
@@ -70,4 +78,4 @@ Tech stack: Next.js 14, React 18, TypeScript, Tailwind CSS.
 | Settings auto-pause on open | Ensures modal visibility and accessibility | ✓ Good |
 
 ---
-*Last updated: 2026-01-28 after v1.0 milestone*
+*Last updated: 2026-01-28 after v1.1 milestone started*

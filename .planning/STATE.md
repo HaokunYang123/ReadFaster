@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Users can read text faster by focusing on one word at a time with the pivot letter centered and highlighted.
-**Current focus:** Planning next milestone
+**Current focus:** Milestone v1.1 — Reliability & Testing
 
 ## Current Position
 
-Phase: Not started
+Phase: Not started (defining requirements)
 Plan: —
-Status: Ready to plan next milestone
-Last activity: 2026-01-28 — v1.0 milestone complete
+Status: Defining requirements
+Last activity: 2026-01-28 — Milestone v1.1 started
 
 Progress: [░░░░░░░░░░] 0% (new milestone)
 
