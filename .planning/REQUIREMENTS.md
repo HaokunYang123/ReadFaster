@@ -9,23 +9,23 @@ Requirements for reliability and testing milestone. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Vitest configured with Next.js 14 and TypeScript support
-- [ ] **INFRA-02**: React Testing Library installed with jsdom environment
+- [x] **INFRA-01**: Vitest configured with Next.js 14 and TypeScript support
+- [x] **INFRA-02**: React Testing Library installed with jsdom environment
 - [ ] **INFRA-03**: Playwright configured for E2E testing
-- [ ] **INFRA-04**: Test scripts added to package.json (test, test:coverage, test:e2e)
+- [x] **INFRA-04**: Test scripts added to package.json (test, test:coverage, test:e2e)
 - [ ] **INFRA-05**: GitHub Actions workflow runs tests on PR and push
 
 ### Unit Tests
 
-- [ ] **UNIT-01**: `tokenize()` tested with various whitespace patterns
-- [ ] **UNIT-02**: `tokenize()` tested with multi-language text (CJK, RTL, accented)
-- [ ] **UNIT-03**: `calculatePivotIndex()` tested for words length 0-20+
-- [ ] **UNIT-04**: `calculatePivotIndex()` tested with CJK characters
-- [ ] **UNIT-05**: `calculatePivotIndex()` tested with emoji and surrogate pairs
-- [ ] **UNIT-06**: `splitWordByPivot()` tested across all word types
-- [ ] **UNIT-07**: `wpmToInterval()` tested for boundary values (100, 1000)
-- [ ] **UNIT-08**: Edge cases tested: empty string, single char, very long words (100+ chars)
-- [ ] **UNIT-09**: Storage utilities tested with localStorage mocking
+- [x] **UNIT-01**: `tokenize()` tested with various whitespace patterns
+- [x] **UNIT-02**: `tokenize()` tested with multi-language text (CJK, RTL, accented)
+- [x] **UNIT-03**: `calculatePivotIndex()` tested for words length 0-20+
+- [x] **UNIT-04**: `calculatePivotIndex()` tested with CJK characters
+- [x] **UNIT-05**: `calculatePivotIndex()` tested with emoji and surrogate pairs
+- [x] **UNIT-06**: `splitWordByPivot()` tested across all word types
+- [x] **UNIT-07**: `wpmToInterval()` tested for boundary values (100, 1000)
+- [x] **UNIT-08**: Edge cases tested: empty string, single char, very long words (100+ chars)
+- [x] **UNIT-09**: Storage utilities tested with localStorage mocking
 
 ### Integration Tests
 
@@ -86,20 +86,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 3 | Pending |
-| INFRA-02 | Phase 3 | Pending |
-| INFRA-03 | Phase 3 | Pending |
-| INFRA-04 | Phase 3 | Pending |
-| INFRA-05 | Phase 3 | Pending |
-| UNIT-01 | Phase 3 | Pending |
-| UNIT-02 | Phase 3 | Pending |
-| UNIT-03 | Phase 3 | Pending |
-| UNIT-04 | Phase 3 | Pending |
-| UNIT-05 | Phase 3 | Pending |
-| UNIT-06 | Phase 3 | Pending |
-| UNIT-07 | Phase 3 | Pending |
-| UNIT-08 | Phase 3 | Pending |
-| UNIT-09 | Phase 3 | Pending |
+| INFRA-01 | Phase 3 | Complete |
+| INFRA-02 | Phase 3 | Complete |
+| INFRA-03 | Phase 5 | Pending |
+| INFRA-04 | Phase 3 | Complete |
+| INFRA-05 | Phase 5 | Pending |
+| UNIT-01 | Phase 3 | Complete |
+| UNIT-02 | Phase 3 | Complete |
+| UNIT-03 | Phase 3 | Complete |
+| UNIT-04 | Phase 3 | Complete |
+| UNIT-05 | Phase 3 | Complete |
+| UNIT-06 | Phase 3 | Complete |
+| UNIT-07 | Phase 3 | Complete |
+| UNIT-08 | Phase 3 | Complete |
+| UNIT-09 | Phase 3 | Complete |
 | INTG-01 | Phase 4 | Pending |
 | INTG-02 | Phase 4 | Pending |
 | INTG-03 | Phase 4 | Pending |
@@ -128,4 +128,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 after roadmap creation*
+*Last updated: 2026-01-28 after Phase 3 completion*
