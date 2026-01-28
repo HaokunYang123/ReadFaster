@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A speed reading web app using RSVP (Rapid Serial Visual Presentation) that displays words one at a time with the optimal recognition point (pivot letter) highlighted. Users can paste text, upload files (TXT, PDF, ePub, images), or fetch from URLs.
+A speed reading web app using RSVP (Rapid Serial Visual Presentation) that displays words one at a time with the optimal recognition point (pivot letter) centered and highlighted. Users can paste text, upload files (TXT, PDF, ePub, images), or fetch from URLs. Reading automatically enters immersive focus mode with customizable pivot highlighting.
 
 ## Core Value
 
@@ -22,28 +22,31 @@ Users can read text faster by focusing on one word at a time with the pivot lett
 - ✓ Library for saving/loading texts — existing
 - ✓ Keyboard shortcuts (space, arrows) — existing
 - ✓ Session persistence — existing
+- ✓ Auto-activating focus mode when reading starts — v1.0
+- ✓ Pivot highlight color selection (6 preset swatches) — v1.0
+- ✓ Pivot highlight toggle (on/off) — v1.0
+- ✓ Click-to-pause in focus mode — v1.0
+- ✓ 200ms debounced play/pause for smooth transitions — v1.0
+- ✓ Enhanced focus mode styling (95% dim, responsive scaling) — v1.0
 
 ### Active
 
-- [ ] Auto-activating focus mode when reading starts (hides all UI except reader)
-- [ ] Pivot highlight color selection (preset color swatches)
-- [ ] Pivot highlight toggle (on/off)
+(None yet — next milestone goals TBD)
 
 ### Out of Scope
 
-- Full color picker — preset colors sufficient for MVP
-- Focus mode as separate toggle setting — replacing with auto-activate behavior
+- Full color picker — preset colors sufficient, simpler UI
+- Focus mode as separate toggle setting — replaced by auto-activate behavior
+- Custom pivot color input — presets cover common needs
 
 ## Context
 
-This is a brownfield project with an existing, functional RSVP reader. The current focus mode exists as a toggle in settings (`focusModeEnabled`) but the user wants it to automatically activate when reading starts. The pivot letter is currently hardcoded red (`#FF0000`) in `globals.css`.
+Shipped v1.0 with 2,037 LOC TypeScript/CSS. Existing RSVP reader enhanced with:
+- Focus mode is now derived state (`isPlaying && !isComplete`), not persisted
+- CSS variables for pivot theming (`--pivot-color`)
+- Settings spread-merge pattern for backward-compatible defaults
 
-Key files to modify:
-- `src/types/index.ts` — add new settings fields
-- `src/components/WordDisplay.tsx` — apply dynamic pivot color
-- `src/components/SettingsModal.tsx` — add color picker and toggle
-- `src/app/page.tsx` — change focus mode to auto-activate
-- `src/app/globals.css` — remove hardcoded pivot color
+Tech stack: Next.js 14, React 18, TypeScript, Tailwind CSS.
 
 ## Constraints
 
@@ -55,8 +58,16 @@ Key files to modify:
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Auto-activate focus mode | Simpler UX, no toggle needed | — Pending |
-| Preset colors over color picker | Faster to implement, cleaner UI | — Pending |
+| Auto-activate focus mode | Simpler UX, no toggle needed | ✓ Good |
+| Preset colors over color picker | Faster to implement, cleaner UI | ✓ Good |
+| Focus mode as derived state | No persistence needed, simpler logic | ✓ Good |
+| CSS variables for pivot theming | Runtime changes without JS recalc | ✓ Good |
+| 200ms debounce timeout | Prevents jank while remaining responsive | ✓ Good |
+| Click-to-pause exits focus mode | Intuitive escape without dedicated UI | ✓ Good |
+| 95% opacity background dim | Provides context without full blackout | ✓ Good |
+| 6 vibrant preset colors | High contrast against dark background | ✓ Good |
+| .no-highlight class for toggle | Cleaner separation of concerns | ✓ Good |
+| Settings auto-pause on open | Ensures modal visibility and accessibility | ✓ Good |
 
 ---
-*Last updated: 2026-01-26 after initialization*
+*Last updated: 2026-01-28 after v1.0 milestone*
