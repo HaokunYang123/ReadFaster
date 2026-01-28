@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Users can read text faster by focusing on one word at a time with the pivot letter centered and highlighted.
-**Current focus:** Phase 5 - E2E Tests & CI/CD (Wave 2 complete)
+**Current focus:** Phase 5 - E2E Tests & CI/CD (COMPLETE)
 
 ## Current Position
 
-Phase: 5 of 5 (E2E Tests & CI/CD)
-Plan: 3 of 4 (Focus Mode, Settings, Library E2E Tests) - complete
-Status: In progress
-Last activity: 2026-01-28 - Completed 05-03-PLAN.md
+Phase: 5 of 5 (E2E Tests & CI/CD) - COMPLETE
+Plan: 4 of 4 (CI/CD Pipeline) - complete
+Status: All phases complete
+Last activity: 2026-01-28 - Completed 05-04-PLAN.md
 
-Progress: [██████████] 96% (v1.0 complete, Phases 3-4 complete, 05-01, 05-02, 05-03 done)
+Progress: [██████████] 100% (v1.0 complete, all v1.1 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 2.5 min
-- Total execution time: 0.55 hours
+- Total plans completed: 14
+- Average duration: 2.7 min
+- Total execution time: 0.65 hours
 
 **By Phase:**
 
@@ -31,15 +31,15 @@ Progress: [██████████] 96% (v1.0 complete, Phases 3-4 comple
 | 2. Pivot Customization | 2 | 3min | 1.5min |
 | 3. Test Infrastructure | 3 | 5min | 1.7min |
 | 4. Integration Tests | 3 | 9min | 3min |
-| 5. E2E Tests & CI/CD | 3 | 21min | 7min |
+| 5. E2E Tests & CI/CD | 4 | 26min | 6.5min |
 
 **Recent Trend:**
 - v1.0 completed in <10 minutes total (4 plans)
 - v1.1 Phase 3 completed: 5 min total (1.7 min average)
 - v1.1 Phase 4 completed: 9 min total (3 min average)
-- v1.1 Phase 5 in progress: 21 min (05-01: 4min, 05-02: 8min, 05-03: 9min)
+- v1.1 Phase 5 completed: 26 min total (05-01: 4min, 05-02: 8min, 05-03: 9min, 05-04: 5min)
 
-*Updated after 05-03 completion*
+*Updated after 05-04 completion*
 
 ## Accumulated Context
 
@@ -75,19 +75,23 @@ Recent decisions affecting current work:
 - 05-03: Use nth() for select/swatch elements to avoid ambiguous selectors
 - 05-03: Use .mb-6 prefix to scope library selectors
 - 05-03: Verify localStorage directly via page.evaluate()
+- 05-04: Sequential CI jobs (unit/integration -> E2E) using needs keyword
+- 05-04: No Playwright browser caching (restore time = download time)
+- 05-04: Upload artifacts only on failure to save storage
+- 05-04: 75% coverage threshold, 70% for branches
 
 ### Pending Todos
 
-None yet.
+None - all phases complete.
 
 ### Blockers/Concerns
 
-**Phase 5 In Progress:**
+**Phase 5 Complete:**
 - E2E infrastructure complete (Playwright + POM classes)
-- Reading flow and keyboard E2E tests complete
-- Focus mode, settings, and library E2E tests complete
-- 45 E2E tests passing on chromium
-- Ready for 05-04 (CI/CD pipeline)
+- All E2E tests passing (45 tests across reading flow, keyboard, focus mode, settings, library)
+- CI/CD pipeline operational (GitHub Actions)
+- Coverage thresholds enforced (75% minimum, 91%+ actual)
+- 197 unit/integration tests + 45 E2E tests = 242 total tests
 
 **Resolved (Phase 5):**
 - Port conflict resolved (using port 3001)
@@ -97,6 +101,7 @@ None yet.
 - LibraryPage selector conflicts resolved (.mb-6 prefix)
 - SettingsPage select disambiguation resolved (nth() indexing)
 - localStorage key mismatch fixed (underscores not hyphens)
+- Vitest/Playwright conflict resolved (exclude E2E tests from Vitest)
 
 **Resolved (Phase 4):**
 - Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
@@ -118,8 +123,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 05-03-PLAN.md
+Stopped at: Completed 05-04-PLAN.md (Phase 5 complete)
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after 05-03 completion*
+*State updated: 2026-01-28 after 05-04 completion*
