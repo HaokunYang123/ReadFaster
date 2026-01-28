@@ -1,6 +1,15 @@
 'use client';
 
-import { RSVPSettings } from '@/types';
+import { RSVPSettings, DEFAULT_SETTINGS } from '@/types';
+
+const PRESET_COLORS = [
+  '#FF0000', // Red (default)
+  '#FF6B00', // Orange
+  '#FFD700', // Gold
+  '#00FF00', // Lime Green
+  '#0099FF', // Sky Blue
+  '#9D00FF', // Purple
+];
 
 interface SettingsModalProps {
   isOpen: boolean;
