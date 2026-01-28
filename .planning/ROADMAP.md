@@ -60,10 +60,12 @@ Plans:
   3. WordDisplay component renders pivot letter highlighting correctly for all word types
   4. Controls and SettingsModal components respond to user interactions (clicks, keyboard input)
   5. Components render multi-language text correctly (CJK characters, RTL text direction)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: [To be planned]
+- [ ] 04-01: Integration test infrastructure and useRSVP hook tests (INTG-01, INTG-02)
+- [ ] 04-02: Persistence hooks tests - useLibrary and useSettings (INTG-03, INTG-04)
+- [ ] 04-03: Component integration tests - WordDisplay, Controls, SettingsModal (INTG-05, INTG-06, INTG-07, INTG-08)
 
 #### Phase 5: E2E Tests & CI/CD
 **Goal**: Critical user workflows validated across browsers with automated CI quality gates
@@ -92,8 +94,8 @@ Phases execute in numeric order: 3 → 4 → 5
 | 1. Focus Mode Experience | v1.0 | 2/2 | Complete | 2026-01-28 |
 | 2. Pivot Customization | v1.0 | 2/2 | Complete | 2026-01-28 |
 | 3. Test Infrastructure & Unit Tests | v1.1 | 3/3 | Complete | 2026-01-28 |
-| 4. Integration Tests | v1.1 | 0/? | Not started | - |
+| 4. Integration Tests | v1.1 | 0/3 | Not started | - |
 | 5. E2E Tests & CI/CD | v1.1 | 0/? | Not started | - |
 
 ---
-*Last updated: 2026-01-28 — Phase 3 complete (81 passing tests)*
+*Last updated: 2026-01-28 — Phase 4 planned (3 plans in 2 waves)*
