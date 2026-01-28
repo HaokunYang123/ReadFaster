@@ -11,9 +11,9 @@ Requirements for reliability and testing milestone. Each maps to roadmap phases.
 
 - [x] **INFRA-01**: Vitest configured with Next.js 14 and TypeScript support
 - [x] **INFRA-02**: React Testing Library installed with jsdom environment
-- [ ] **INFRA-03**: Playwright configured for E2E testing
+- [x] **INFRA-03**: Playwright configured for E2E testing
 - [x] **INFRA-04**: Test scripts added to package.json (test, test:coverage, test:e2e)
-- [ ] **INFRA-05**: GitHub Actions workflow runs tests on PR and push
+- [x] **INFRA-05**: GitHub Actions workflow runs tests on PR and push
 
 ### Unit Tests
 
@@ -40,21 +40,21 @@ Requirements for reliability and testing milestone. Each maps to roadmap phases.
 
 ### E2E Tests
 
-- [ ] **E2E-01**: Complete reading flow: paste text → play → pause → resume → complete
-- [ ] **E2E-02**: Keyboard shortcuts: space (play/pause), arrows (speed adjustment)
-- [ ] **E2E-03**: Focus mode activates on play, exits on pause/complete
-- [ ] **E2E-04**: Click-to-pause works in focus mode
-- [ ] **E2E-05**: Settings changes persist across page reload
-- [ ] **E2E-06**: Library saves and loads texts correctly
-- [ ] **E2E-07**: Tests pass in Chrome browser
-- [ ] **E2E-08**: Tests pass in Firefox browser
-- [ ] **E2E-09**: Tests pass in Safari/WebKit browser
+- [x] **E2E-01**: Complete reading flow: paste text → play → pause → resume → complete
+- [x] **E2E-02**: Keyboard shortcuts: space (play/pause), arrows (speed adjustment)
+- [x] **E2E-03**: Focus mode activates on play, exits on pause/complete
+- [x] **E2E-04**: Click-to-pause works in focus mode
+- [x] **E2E-05**: Settings changes persist across page reload
+- [x] **E2E-06**: Library saves and loads texts correctly
+- [x] **E2E-07**: Tests pass in Chrome browser
+- [x] **E2E-08**: Tests pass in Firefox browser
+- [x] **E2E-09**: Tests pass in Safari/WebKit browser
 
 ### Coverage & Quality
 
-- [ ] **QUAL-01**: Overall test coverage reaches 75% minimum
-- [ ] **QUAL-02**: Critical paths (rsvp.ts, hooks) reach 90% coverage
-- [ ] **QUAL-03**: All tests pass in CI before merge
+- [x] **QUAL-01**: Overall test coverage reaches 75% minimum
+- [x] **QUAL-02**: Critical paths (rsvp.ts, hooks) reach 90% coverage
+- [x] **QUAL-03**: All tests pass in CI before merge
 
 ## Future Requirements
 
@@ -88,9 +88,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INFRA-01 | Phase 3 | Complete |
 | INFRA-02 | Phase 3 | Complete |
-| INFRA-03 | Phase 5 | Pending |
+| INFRA-03 | Phase 5 | Complete |
 | INFRA-04 | Phase 3 | Complete |
-| INFRA-05 | Phase 5 | Pending |
+| INFRA-05 | Phase 5 | Complete |
 | UNIT-01 | Phase 3 | Complete |
 | UNIT-02 | Phase 3 | Complete |
 | UNIT-03 | Phase 3 | Complete |
@@ -108,18 +108,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INTG-06 | Phase 4 | Complete |
 | INTG-07 | Phase 4 | Complete |
 | INTG-08 | Phase 4 | Complete |
-| E2E-01 | Phase 5 | Pending |
-| E2E-02 | Phase 5 | Pending |
-| E2E-03 | Phase 5 | Pending |
-| E2E-04 | Phase 5 | Pending |
-| E2E-05 | Phase 5 | Pending |
-| E2E-06 | Phase 5 | Pending |
-| E2E-07 | Phase 5 | Pending |
-| E2E-08 | Phase 5 | Pending |
-| E2E-09 | Phase 5 | Pending |
-| QUAL-01 | Phase 5 | Pending |
-| QUAL-02 | Phase 5 | Pending |
-| QUAL-03 | Phase 5 | Pending |
+| E2E-01 | Phase 5 | Complete |
+| E2E-02 | Phase 5 | Complete |
+| E2E-03 | Phase 5 | Complete |
+| E2E-04 | Phase 5 | Complete |
+| E2E-05 | Phase 5 | Complete |
+| E2E-06 | Phase 5 | Complete |
+| E2E-07 | Phase 5 | Complete |
+| E2E-08 | Phase 5 | Complete |
+| E2E-09 | Phase 5 | Complete |
+| QUAL-01 | Phase 5 | Complete |
+| QUAL-02 | Phase 5 | Complete |
+| QUAL-03 | Phase 5 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 32 total
@@ -128,4 +128,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 after Phase 4 completion*
+*Last updated: 2026-01-28 after Phase 5 completion — v1.1 Complete*

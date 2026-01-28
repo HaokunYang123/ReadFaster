@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 Enhancement** - Phases 1-2 (shipped 2026-01-28)
-- 🚧 **v1.1 Reliability & Testing** - Phases 3-5 (in progress)
+- ✅ **v1.1 Reliability & Testing** - Phases 3-5 (shipped 2026-01-28)
 
 ## Phases
 
@@ -28,9 +28,10 @@ Plans:
 
 </details>
 
-### 🚧 v1.1 Reliability & Testing (In Progress)
+### ✅ v1.1 Reliability & Testing (Complete)
 
 **Milestone Goal:** Comprehensive test coverage for RSVP algorithms, React components, and critical user workflows with automated quality gates.
+**Completed:** 2026-01-28
 
 #### ✅ Phase 3: Test Infrastructure & Unit Tests (Complete)
 **Goal**: Testing foundation established with complete utility function coverage
@@ -68,25 +69,26 @@ Plans:
 - [x] 04-02: Persistence hooks tests - useLibrary and useSettings (INTG-03, INTG-04)
 - [x] 04-03: Component integration tests - WordDisplay, Controls, SettingsModal (INTG-05, INTG-06, INTG-07, INTG-08)
 
-#### Phase 5: E2E Tests & CI/CD
+#### ✅ Phase 5: E2E Tests & CI/CD (Complete)
 **Goal**: Critical user workflows validated across browsers with automated CI quality gates
 **Depends on**: Phase 4
 **Requirements**: E2E-01, E2E-02, E2E-03, E2E-04, E2E-05, E2E-06, E2E-07, E2E-08, E2E-09, QUAL-01, QUAL-02, QUAL-03
 **Success Criteria** (what must be TRUE):
-  1. User can complete full reading flow (paste text → play → pause → resume → complete) in all browsers
-  2. Keyboard shortcuts (space for play/pause, arrows for speed) work correctly
-  3. Focus mode activates on play and click-to-pause exits correctly
-  4. Settings and library changes persist across browser page reloads
-  5. All E2E tests pass in Chrome, Firefox, and Safari/WebKit browsers
-  6. Test coverage reaches 75% minimum with critical paths (rsvp.ts, hooks) at 90%+
-  7. GitHub Actions CI pipeline runs all tests on PR and blocks merge if tests fail
+  1. ✓ User can complete full reading flow (paste text → play → pause → resume → complete) in all browsers
+  2. ✓ Keyboard shortcuts (space for play/pause, arrows for speed) work correctly
+  3. ✓ Focus mode activates on play and click-to-pause exits correctly
+  4. ✓ Settings and library changes persist across browser page reloads
+  5. ✓ All E2E tests pass in Chrome, Firefox, and Safari/WebKit browsers
+  6. ✓ Test coverage reaches 75% minimum with critical paths (rsvp.ts, hooks) at 90%+
+  7. ✓ GitHub Actions CI pipeline runs all tests on PR and blocks merge if tests fail
 **Plans**: 4 plans
+**Completed**: 2026-01-28
 
 Plans:
-- [ ] 05-01: Playwright infrastructure and Page Object Model setup (INFRA-03)
-- [ ] 05-02: Reading flow and keyboard shortcut E2E tests (E2E-01, E2E-02, E2E-07, E2E-08, E2E-09)
-- [ ] 05-03: Focus mode, settings, and library E2E tests (E2E-03, E2E-04, E2E-05, E2E-06)
-- [ ] 05-04: GitHub Actions CI/CD pipeline and coverage thresholds (INFRA-05, QUAL-01, QUAL-02, QUAL-03)
+- [x] 05-01: Playwright infrastructure and Page Object Model setup (INFRA-03)
+- [x] 05-02: Reading flow and keyboard shortcut E2E tests (E2E-01, E2E-02, E2E-07, E2E-08, E2E-09)
+- [x] 05-03: Focus mode, settings, and library E2E tests (E2E-03, E2E-04, E2E-05, E2E-06)
+- [x] 05-04: GitHub Actions CI/CD pipeline and coverage thresholds (INFRA-05, QUAL-01, QUAL-02, QUAL-03)
 
 ## Progress
 
@@ -99,7 +101,7 @@ Phases execute in numeric order: 3 → 4 → 5
 | 2. Pivot Customization | v1.0 | 2/2 | Complete | 2026-01-28 |
 | 3. Test Infrastructure & Unit Tests | v1.1 | 3/3 | Complete | 2026-01-28 |
 | 4. Integration Tests | v1.1 | 3/3 | Complete | 2026-01-28 |
-| 5. E2E Tests & CI/CD | v1.1 | 0/4 | Not started | - |
+| 5. E2E Tests & CI/CD | v1.1 | 4/4 | Complete | 2026-01-28 |
 
 ---
-*Last updated: 2026-01-28 — Phase 5 planned (4 plans in 3 waves)*
+*Last updated: 2026-01-28 — v1.1 Milestone Complete*
