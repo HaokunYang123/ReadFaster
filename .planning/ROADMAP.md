@@ -80,10 +80,13 @@ Plans:
   5. All E2E tests pass in Chrome, Firefox, and Safari/WebKit browsers
   6. Test coverage reaches 75% minimum with critical paths (rsvp.ts, hooks) at 90%+
   7. GitHub Actions CI pipeline runs all tests on PR and blocks merge if tests fail
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 05-01: [To be planned]
+- [ ] 05-01: Playwright infrastructure and Page Object Model setup (INFRA-03)
+- [ ] 05-02: Reading flow and keyboard shortcut E2E tests (E2E-01, E2E-02, E2E-07, E2E-08, E2E-09)
+- [ ] 05-03: Focus mode, settings, and library E2E tests (E2E-03, E2E-04, E2E-05, E2E-06)
+- [ ] 05-04: GitHub Actions CI/CD pipeline and coverage thresholds (INFRA-05, QUAL-01, QUAL-02, QUAL-03)
 
 ## Progress
 
@@ -96,7 +99,7 @@ Phases execute in numeric order: 3 → 4 → 5
 | 2. Pivot Customization | v1.0 | 2/2 | Complete | 2026-01-28 |
 | 3. Test Infrastructure & Unit Tests | v1.1 | 3/3 | Complete | 2026-01-28 |
 | 4. Integration Tests | v1.1 | 3/3 | Complete | 2026-01-28 |
-| 5. E2E Tests & CI/CD | v1.1 | 0/? | Not started | - |
+| 5. E2E Tests & CI/CD | v1.1 | 0/4 | Not started | - |
 
 ---
-*Last updated: 2026-01-28 — Phase 4 complete (116 integration tests passing)*
+*Last updated: 2026-01-28 — Phase 5 planned (4 plans in 3 waves)*
