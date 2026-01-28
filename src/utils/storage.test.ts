@@ -311,4 +311,167 @@ describe('storage utilities', () => {
       })
     })
   })
+
+  describe('settings persistence', () => {
+    describe('saveSettings', () => {
+      it('saves settings to localStorage with correct key', () => {
+        const settings: RSVPSettings = {
+          fontFamily: 'serif',
+          fontWeight: 'bold',
+          fontSize: 'large',
+          pivotColor: '#00FF00',
+          showPivotHighlight: false,
+        }
+
+        saveSettings(settings)
+
+        expect(setItemSpy).toHaveBeenCalledWith(
+          'readfaster_settings',
+          JSON.stringify(settings)
+        )
+      })
+
+      it('serializes RSVPSettings object', () => {
+        const settings: RSVPSettings = {
+          fontFamily: 'sans',
+          fontWeight: 'medium',
+          fontSize: 'small',
+          pivotColor: '#FF00FF',
+          showPivotHighlight: true,
+        }
+
+        saveSettings(settings)
+
+        const settingsCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_settings'
+        )
+        expect(settingsCall).toBeDefined()
+        const saved = JSON.parse(settingsCall![1] as string)
+        expect(saved).toEqual(settings)
+      })
+    })
+
+    describe('loadSettings', () => {
+      it('returns DEFAULT_SETTINGS when no settings exist', () => {
+        getItemSpy.mockReturnValue(null)
+
+        const result = loadSettings()
+
+        expect(result).toEqual(DEFAULT_SETTINGS)
+      })
+
+      it('merges stored settings with defaults', () => {
+        const partialSettings = {
+          fontFamily: 'serif',
+          pivotColor: '#0000FF',
+        }
+        getItemSpy.mockReturnValue(JSON.stringify(partialSettings))
+
+        const result = loadSettings()
+
+        expect(result.fontFamily).toBe('serif')
+        expect(result.pivotColor).toBe('#0000FF')
+        expect(result.fontWeight).toBe(DEFAULT_SETTINGS.fontWeight)
+        expect(result.fontSize).toBe(DEFAULT_SETTINGS.fontSize)
+        expect(result.showPivotHighlight).toBe(DEFAULT_SETTINGS.showPivotHighlight)
+      })
+
+      it('returns defaults when JSON parsing fails', () => {
+        getItemSpy.mockReturnValue('invalid json{')
+
+        const result = loadSettings()
+
+        expect(result).toEqual(DEFAULT_SETTINGS)
+      })
+
+      it('handles missing properties by using defaults', () => {
+        const incompleteSettings = {
+          fontFamily: 'monospace',
+          // Missing other properties
+        }
+        getItemSpy.mockReturnValue(JSON.stringify(incompleteSettings))
+
+        const result = loadSettings()
+
+        expect(result.fontFamily).toBe('monospace')
+        expect(result.fontWeight).toBe(DEFAULT_SETTINGS.fontWeight)
+        expect(result.fontSize).toBe(DEFAULT_SETTINGS.fontSize)
+        expect(result.pivotColor).toBe(DEFAULT_SETTINGS.pivotColor)
+        expect(result.showPivotHighlight).toBe(DEFAULT_SETTINGS.showPivotHighlight)
+      })
+    })
+  })
+
+  describe('generateId', () => {
+    it('returns string in expected format', () => {
+      const id = generateId()
+
+      expect(typeof id).toBe('string')
+      expect(id).toMatch(/^\d+-[a-z0-9]+$/) // timestamp-random format
+    })
+
+    it('generates unique ids on consecutive calls', () => {
+      const id1 = generateId()
+      const id2 = generateId()
+
+      expect(id1).not.toBe(id2)
+    })
+
+    it('includes timestamp component', () => {
+      const beforeTime = Date.now()
+      const id = generateId()
+      const afterTime = Date.now()
+
+      const timestamp = parseInt(id.split('-')[0])
+      expect(timestamp).toBeGreaterThanOrEqual(beforeTime)
+      expect(timestamp).toBeLessThanOrEqual(afterTime)
+    })
+  })
+
+  describe('storage unavailability', () => {
+    it('saveSession does not throw when setItem fails', () => {
+      setItemSpy.mockImplementation(() => {
+        throw new Error('Storage unavailable')
+      })
+
+      const session: SavedSession = {
+        text: 'test',
+        currentIndex: 0,
+        wpm: 300,
+        savedAt: Date.now(),
+      }
+
+      expect(() => saveSession(session)).not.toThrow()
+    })
+
+    it('loadSession returns null when getItem fails', () => {
+      getItemSpy.mockImplementation(() => {
+        throw new Error('Storage unavailable')
+      })
+
+      const result = loadSession()
+
+      expect(result).toBeNull()
+    })
+
+    it('loadLibrary returns empty array when storage fails', () => {
+      getItemSpy.mockImplementation(() => {
+        throw new Error('Storage unavailable')
+      })
+
+      const result = loadLibrary()
+
+      expect(result).toEqual([])
+    })
+
+    it('loadSettings returns DEFAULT_SETTINGS when storage fails', () => {
+      getItemSpy.mockImplementation(() => {
+        throw new Error('Storage unavailable')
+      })
+
+      const result = loadSettings()
+
+      expect(result).toEqual(DEFAULT_SETTINGS)
+    })
+  })
 })
