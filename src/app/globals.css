@@ -49,8 +49,14 @@
 }
 
 .word-display .pivot {
-  color: #FF0000;
+  color: var(--pivot-color, #FF0000);
   font-weight: bold;
+}
+
+/* When highlighting is disabled, pivot matches rest of word */
+.word-display.no-highlight .pivot {
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .word-display .before-pivot,
