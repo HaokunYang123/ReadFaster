@@ -52,6 +52,8 @@ Recent decisions affecting current work:
 - 03-01: Text reporter only for coverage (avoids report bloat)
 - 03-01: jsdom environment for browser API emulation
 - 03-01: Unicode fixtures with surrogate pair documentation
+- 03-02: Fixed fixtures.ts multi-word bug (São Paulo → São)
+- 03-02: Documented emoji .length behavior (surrogate pairs) in tests
 - 03-03: Storage.prototype spy pattern for localStorage mocking
 - 03-03: Test graceful degradation when storage unavailable
 
