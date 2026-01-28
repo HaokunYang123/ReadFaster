@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Users can read text faster by focusing on one word at a time with the pivot letter centered and highlighted.
-**Current focus:** Phase 4 - Integration Tests
+**Current focus:** Phase 5 - E2E Tests & CI/CD
 
 ## Current Position
 
-Phase: 4 of 5 (Integration Tests)
-Plan: 3 of 3 (Component Integration Tests)
-Status: Phase verified and complete
-Last activity: 2026-01-28 — Phase 4 verified and complete
+Phase: 5 of 5 (E2E Tests & CI/CD)
+Plan: 1 of 3 (E2E Test Infrastructure)
+Status: In progress
+Last activity: 2026-01-28 — Completed 05-01-PLAN.md
 
-Progress: [█████████░] 90% (v1.0 complete, Phases 3-4 complete)
+Progress: [█████████░] 92% (v1.0 complete, Phases 3-4 complete, 05-01 done)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 1.6 min
-- Total execution time: 0.27 hours
+- Total plans completed: 11
+- Average duration: 1.8 min
+- Total execution time: 0.33 hours
 
 **By Phase:**
 
@@ -31,14 +31,15 @@ Progress: [█████████░] 90% (v1.0 complete, Phases 3-4 comple
 | 2. Pivot Customization | 2 | 3min | 1.5min |
 | 3. Test Infrastructure | 3 | 5min | 1.7min |
 | 4. Integration Tests | 3 | 9min | 3min |
+| 5. E2E Tests & CI/CD | 1 | 4min | 4min |
 
 **Recent Trend:**
 - v1.0 completed in <10 minutes total (4 plans)
 - v1.1 Phase 3 completed: 5 min total (1.7 min average)
 - v1.1 Phase 4 completed: 9 min total (3 min average)
-- Trend: Integration tests averaging 3 min per plan
+- v1.1 Phase 5 started: 4 min for infrastructure setup
 
-*Updated after 04-03 completion*
+*Updated after 05-01 completion*
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - 04-03: vi.mock for useSettings to control pivot settings in component tests
 - 04-03: Mock containerRef pattern for layout-dependent components
 - 04-03: getSelectByIndex helper for unlabeled form controls
+- 05-01: Semantic selectors (getByRole, getByLabel) preferred over data-testid
+- 05-01: Page Object Model pattern for E2E test interactions
+- 05-01: webServer config uses npm run dev for faster local iteration
 
 ### Pending Todos
 
@@ -71,9 +75,9 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 4 Complete:**
-- All integration tests passing (99+ tests total)
-- INTG-01 through INTG-08 requirements satisfied
+**Phase 5 In Progress:**
+- E2E infrastructure complete (Playwright + POM classes)
+- Ready for E2E test file implementation (05-02, 05-03)
 
 **Resolved (Phase 4):**
 - Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
@@ -95,8 +99,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 04-03-PLAN.md
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after 04-03 completion*
+*State updated: 2026-01-28 after 05-01 completion*
