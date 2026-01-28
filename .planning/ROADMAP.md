@@ -13,7 +13,7 @@ This roadmap enhances the existing ReadFaster RSVP reader with two user-facing i
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Focus Mode Auto-Activation** - Reading automatically enters/exits focus mode
-- [ ] **Phase 2: Pivot Customization** - User controls pivot highlight color and visibility
+- [x] **Phase 2: Pivot Customization** - User controls pivot highlight color and visibility
 
 ## Phase Details
 
@@ -45,8 +45,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Extend types with pivot settings, update CSS to use variable, wire WordDisplay
-- [ ] 02-02-PLAN.md — Add Pivot Highlight section to SettingsModal with toggle, swatches, reset, preview
+- [x] 02-01-PLAN.md — Extend types with pivot settings, update CSS to use variable, wire WordDisplay
+- [x] 02-02-PLAN.md — Add Pivot Highlight section to SettingsModal with toggle, swatches, reset, preview
 
 ## Progress
 
@@ -56,4 +56,4 @@ Phases execute in numeric order: 1 → 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Focus Mode Auto-Activation | 2/2 | ✓ Complete | 2026-01-27 |
-| 2. Pivot Customization | 0/2 | Not started | - |
+| 2. Pivot Customization | 2/2 | ✓ Complete | 2026-01-27 |

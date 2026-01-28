@@ -14,9 +14,9 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Pivot Highlighting
 
-- [ ] **PIVOT-01**: User can select pivot letter highlight color from preset swatches in settings
-- [ ] **PIVOT-02**: User can toggle pivot highlighting on/off in settings
-- [ ] **PIVOT-03**: Pivot color and toggle state persist across sessions
+- [x] **PIVOT-01**: User can select pivot letter highlight color from preset swatches in settings
+- [x] **PIVOT-02**: User can toggle pivot highlighting on/off in settings
+- [x] **PIVOT-03**: Pivot color and toggle state persist across sessions
 
 ## v2 Requirements
 
@@ -41,9 +41,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | FOCUS-01 | Phase 1 | Complete |
 | FOCUS-02 | Phase 1 | Complete |
-| PIVOT-01 | Phase 2 | Pending |
-| PIVOT-02 | Phase 2 | Pending |
-| PIVOT-03 | Phase 2 | Pending |
+| PIVOT-01 | Phase 2 | Complete |
+| PIVOT-02 | Phase 2 | Complete |
+| PIVOT-03 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 5 total
@@ -52,4 +52,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-26*
-*Last updated: 2026-01-27 after Phase 1 completion*
+*Last updated: 2026-01-27 after Phase 2 completion*
