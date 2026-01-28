@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Users can read text faster by focusing on one word at a time with the pivot letter centered and highlighted.
-**Current focus:** Phase 5 - E2E Tests & CI/CD
+**Current focus:** Phase 5 - E2E Tests & CI/CD (Wave 2 complete)
 
 ## Current Position
 
 Phase: 5 of 5 (E2E Tests & CI/CD)
-Plan: 1 of 3 (E2E Test Infrastructure)
+Plan: 2 of 4 (Reading Flow & Keyboard E2E Tests) - complete
 Status: In progress
-Last activity: 2026-01-28 — Completed 05-01-PLAN.md
+Last activity: 2026-01-28 - Completed 05-02-PLAN.md
 
-Progress: [█████████░] 92% (v1.0 complete, Phases 3-4 complete, 05-01 done)
+Progress: [██████████] 94% (v1.0 complete, Phases 3-4 complete, 05-01, 05-02 done)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 1.8 min
-- Total execution time: 0.33 hours
+- Total plans completed: 12
+- Average duration: 2.2 min
+- Total execution time: 0.44 hours
 
 **By Phase:**
 
@@ -31,15 +31,15 @@ Progress: [█████████░] 92% (v1.0 complete, Phases 3-4 comple
 | 2. Pivot Customization | 2 | 3min | 1.5min |
 | 3. Test Infrastructure | 3 | 5min | 1.7min |
 | 4. Integration Tests | 3 | 9min | 3min |
-| 5. E2E Tests & CI/CD | 1 | 4min | 4min |
+| 5. E2E Tests & CI/CD | 2 | 12min | 6min |
 
 **Recent Trend:**
 - v1.0 completed in <10 minutes total (4 plans)
 - v1.1 Phase 3 completed: 5 min total (1.7 min average)
 - v1.1 Phase 4 completed: 9 min total (3 min average)
-- v1.1 Phase 5 started: 4 min for infrastructure setup
+- v1.1 Phase 5 in progress: 12 min (05-01: 4min, 05-02: 8min)
 
-*Updated after 05-01 completion*
+*Updated after 05-02 completion*
 
 ## Accumulated Context
 
@@ -55,7 +55,7 @@ Recent decisions affecting current work:
 - 03-01: Text reporter only for coverage (avoids report bloat)
 - 03-01: jsdom environment for browser API emulation
 - 03-01: Unicode fixtures with surrogate pair documentation
-- 03-02: Fixed fixtures.ts multi-word bug (São Paulo -> São)
+- 03-02: Fixed fixtures.ts multi-word bug (Sao Paulo -> Sao)
 - 03-02: Documented emoji .length behavior (surrogate pairs) in tests
 - 03-03: Storage.prototype spy pattern for localStorage mocking
 - 03-03: Test graceful degradation when storage unavailable
@@ -68,6 +68,10 @@ Recent decisions affecting current work:
 - 05-01: Semantic selectors (getByRole, getByLabel) preferred over data-testid
 - 05-01: Page Object Model pattern for E2E test interactions
 - 05-01: webServer config uses npm run dev for faster local iteration
+- 05-02: Playwright port 3001 to avoid conflicts with other dev servers
+- 05-02: blurInputs() helper for reliable keyboard shortcut testing
+- 05-02: 250ms debounce wait for space key (app has 200ms debounce)
+- 05-02: toBeEnabled() assertion for WebKit compatibility
 
 ### Pending Todos
 
@@ -77,7 +81,14 @@ None yet.
 
 **Phase 5 In Progress:**
 - E2E infrastructure complete (Playwright + POM classes)
-- Ready for E2E test file implementation (05-02, 05-03)
+- Reading flow and keyboard E2E tests complete (72 tests, 3 browsers)
+- Ready for 05-03 (focus mode, settings, library E2E tests)
+
+**Resolved (Phase 5):**
+- Port conflict resolved (using port 3001)
+- Input focus issues resolved (blurInputs() helper)
+- Debounce handling established (250ms wait between space keys)
+- Cross-browser compatibility verified (Chromium, Firefox, WebKit)
 
 **Resolved (Phase 4):**
 - Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
@@ -99,8 +110,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 05-01-PLAN.md
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after 05-01 completion*
+*State updated: 2026-01-28 after 05-02 completion*
