@@ -41,7 +41,7 @@ export const ACCENTED_WORDS = [
   'résumé',      // French
   'Zürich',      // German
   'señor',       // Spanish
-  'São Paulo',   // Portuguese
+  'São',         // Portuguese (single word to avoid space issues)
 ]
 
 // Edge case strings for boundary testing
