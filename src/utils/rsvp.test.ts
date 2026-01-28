@@ -209,3 +209,140 @@ describe('wpmToInterval', () => {
     expect(wpmToInterval(1)).toBe(60000)
   })
 })
+
+describe('splitWordByPivot', () => {
+  describe('standard words', () => {
+    it('splits empty string correctly', () => {
+      expect(splitWordByPivot('')).toEqual({
+        before: '',
+        pivot: '',
+        after: '',
+        pivotIndex: 0,
+      })
+    })
+
+    it('splits single character', () => {
+      expect(splitWordByPivot('a')).toEqual({
+        before: '',
+        pivot: 'a',
+        after: '',
+        pivotIndex: 0,
+      })
+    })
+
+    it('splits two characters', () => {
+      expect(splitWordByPivot('ab')).toEqual({
+        before: '',
+        pivot: 'a',
+        after: 'b',
+        pivotIndex: 0,
+      })
+    })
+
+    it('splits three characters', () => {
+      expect(splitWordByPivot('abc')).toEqual({
+        before: 'a',
+        pivot: 'b',
+        after: 'c',
+        pivotIndex: 1,
+      })
+    })
+
+    it('splits five character word', () => {
+      expect(splitWordByPivot('hello')).toEqual({
+        before: 'h',
+        pivot: 'e',
+        after: 'llo',
+        pivotIndex: 1,
+      })
+    })
+  })
+
+  describe('multi-language', () => {
+    it('splits CJK word', () => {
+      const result = splitWordByPivot('日本語')
+      expect(result).toEqual({
+        before: '日',
+        pivot: '本',
+        after: '語',
+        pivotIndex: 1,
+      })
+    })
+
+    it('splits accented word', () => {
+      const result = splitWordByPivot('café')
+      expect(result).toEqual({
+        before: 'c',
+        pivot: 'a',
+        after: 'fé',
+        pivotIndex: 1,
+      })
+    })
+
+    it('splits RTL word', () => {
+      // Verify mathematical correctness (visual rendering is Phase 4)
+      const arabic = 'مرحبا' // 5 chars
+      const result = splitWordByPivot(arabic)
+      expect(result.pivotIndex).toBeGreaterThanOrEqual(0)
+      expect(result.pivotIndex).toBeLessThan(arabic.length)
+      expect(result.before.length + 1 + result.after.length).toBe(arabic.length)
+    })
+  })
+
+  describe('edge cases', () => {
+    it('handles very long word (100+ chars)', () => {
+      const longWord = 'a'.repeat(100)
+      const result = splitWordByPivot(longWord)
+
+      // Verify no crash and correct structure
+      expect(result.pivotIndex).toBeGreaterThanOrEqual(0)
+      expect(result.pivotIndex).toBeLessThan(longWord.length)
+      expect(result.before.length + 1 + result.after.length).toBe(100)
+    })
+
+    it('handles whitespace-only (if passed)', () => {
+      // Graceful handling of edge case
+      const result = splitWordByPivot(' ')
+      expect(result.pivotIndex).toBe(0)
+      expect(result.pivot).toBe(' ')
+    })
+  })
+})
+
+describe('calculatePivotOffset', () => {
+  it('centers pivot in container', () => {
+    // Container width=200, char width=10, pivot at index 5
+    // Expected: containerCenter(100) - beforeWidth(50) - pivotHalfWidth(5) = 45
+    const offset = calculatePivotOffset(200, 10, 5)
+    expect(offset).toBe(45)
+  })
+
+  it('handles zero pivot index', () => {
+    // Container width=200, char width=10, pivot at index 0
+    // Expected: containerCenter(100) - beforeWidth(0) - pivotHalfWidth(5) = 95
+    const offset = calculatePivotOffset(200, 10, 0)
+    expect(offset).toBe(95)
+  })
+
+  it('handles large pivot index', () => {
+    // Container width=400, char width=8, pivot at index 20
+    // Expected: containerCenter(200) - beforeWidth(160) - pivotHalfWidth(4) = 36
+    const offset = calculatePivotOffset(400, 8, 20)
+    expect(offset).toBe(36)
+  })
+
+  it('calculates offset with formula: containerCenter - (pivotIndex * charWidth) - (charWidth / 2)', () => {
+    // Document the formula explicitly
+    const containerWidth = 300
+    const charWidth = 12
+    const pivotIndex = 10
+
+    const containerCenter = containerWidth / 2
+    const beforeWidth = pivotIndex * charWidth
+    const pivotHalfWidth = charWidth / 2
+    const expectedOffset = containerCenter - beforeWidth - pivotHalfWidth
+
+    expect(calculatePivotOffset(containerWidth, charWidth, pivotIndex)).toBe(expectedOffset)
+    expect(expectedOffset).toBe(24) // 150 - 120 - 6 = 24
+  })
+})
