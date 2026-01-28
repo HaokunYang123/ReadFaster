@@ -42,10 +42,11 @@ Plans:
   3. User can toggle pivot highlighting on/off via checkbox in settings
   4. When pivot highlighting is off, pivot letter appears same style as rest of word
   5. Both color selection and toggle state persist across browser sessions
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- TBD during phase planning
+- [ ] 02-01-PLAN.md — Extend types with pivot settings, update CSS to use variable, wire WordDisplay
+- [ ] 02-02-PLAN.md — Add Pivot Highlight section to SettingsModal with toggle, swatches, reset, preview
 
 ## Progress
 
@@ -55,4 +56,4 @@ Phases execute in numeric order: 1 → 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Focus Mode Auto-Activation | 2/2 | ✓ Complete | 2026-01-27 |
-| 2. Pivot Customization | 0/TBD | Not started | - |
+| 2. Pivot Customization | 0/2 | Not started | - |
