@@ -38,12 +38,16 @@ export interface RSVPSettings {
   fontFamily: 'monospace' | 'serif' | 'sans';
   fontWeight: 'normal' | 'medium' | 'bold';
   fontSize: 'small' | 'medium' | 'large';
+  pivotColor: string;          // Hex color e.g. '#FF0000'
+  showPivotHighlight: boolean; // Toggle for pivot highlighting
 }
 
 export const DEFAULT_SETTINGS: RSVPSettings = {
   fontFamily: 'monospace',
   fontWeight: 'medium',
   fontSize: 'medium',
+  pivotColor: '#FF0000',       // Red default (matches current hardcoded)
+  showPivotHighlight: true,    // On by default
 };
 
 // Library types
