@@ -100,32 +100,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UNIT-07 | Phase 3 | Pending |
 | UNIT-08 | Phase 3 | Pending |
 | UNIT-09 | Phase 3 | Pending |
-| INTG-01 | Phase 3 | Pending |
-| INTG-02 | Phase 3 | Pending |
-| INTG-03 | Phase 3 | Pending |
-| INTG-04 | Phase 3 | Pending |
-| INTG-05 | Phase 3 | Pending |
-| INTG-06 | Phase 3 | Pending |
-| INTG-07 | Phase 3 | Pending |
-| INTG-08 | Phase 3 | Pending |
-| E2E-01 | Phase 3 | Pending |
-| E2E-02 | Phase 3 | Pending |
-| E2E-03 | Phase 3 | Pending |
-| E2E-04 | Phase 3 | Pending |
-| E2E-05 | Phase 3 | Pending |
-| E2E-06 | Phase 3 | Pending |
-| E2E-07 | Phase 3 | Pending |
-| E2E-08 | Phase 3 | Pending |
-| E2E-09 | Phase 3 | Pending |
-| QUAL-01 | Phase 3 | Pending |
-| QUAL-02 | Phase 3 | Pending |
-| QUAL-03 | Phase 3 | Pending |
+| INTG-01 | Phase 4 | Pending |
+| INTG-02 | Phase 4 | Pending |
+| INTG-03 | Phase 4 | Pending |
+| INTG-04 | Phase 4 | Pending |
+| INTG-05 | Phase 4 | Pending |
+| INTG-06 | Phase 4 | Pending |
+| INTG-07 | Phase 4 | Pending |
+| INTG-08 | Phase 4 | Pending |
+| E2E-01 | Phase 5 | Pending |
+| E2E-02 | Phase 5 | Pending |
+| E2E-03 | Phase 5 | Pending |
+| E2E-04 | Phase 5 | Pending |
+| E2E-05 | Phase 5 | Pending |
+| E2E-06 | Phase 5 | Pending |
+| E2E-07 | Phase 5 | Pending |
+| E2E-08 | Phase 5 | Pending |
+| E2E-09 | Phase 5 | Pending |
+| QUAL-01 | Phase 5 | Pending |
+| QUAL-02 | Phase 5 | Pending |
+| QUAL-03 | Phase 5 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 32 total
-- Mapped to phases: 32 (placeholder Phase 3, will be updated by roadmapper)
+- Mapped to phases: 32 (Phase 3: 14, Phase 4: 8, Phase 5: 10)
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 after initial definition*
+*Last updated: 2026-01-28 after roadmap creation*
