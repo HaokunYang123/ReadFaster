@@ -166,6 +166,15 @@ export class ReaderPage {
   }
 
   /**
+   * Blur all inputs to ensure keyboard shortcuts are captured by window listener
+   * This clicks on a non-interactive element to defocus any focused inputs
+   */
+  async blurInputs() {
+    // Click on the h1 title which is not interactive
+    await this.page.locator('h1').first().click();
+  }
+
+  /**
    * Wait for reading to complete (focus mode deactivates)
    */
   async waitForReadingComplete(timeout = 30000) {
