@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-28)
 ## Current Position
 
 Phase: 4 of 5 (Integration Tests)
-Plan: 2 of 3 (Persistence Hook Integration)
+Plan: 1 of 3 (useRSVP Hook Integration)
 Status: In progress
-Last activity: 2026-01-28 — Completed 04-02-PLAN.md
+Last activity: 2026-01-28 — Completed 04-01-PLAN.md
 
-Progress: [████████░░] 80% (v1.0 complete, Phase 3 complete, Phase 4 plan 2/3)
+Progress: [████████░░] 80% (v1.0 complete, Phase 3 complete, Phase 4 plan 1/3)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 8
 - Average duration: 1.6 min
-- Total execution time: 0.24 hours
+- Total execution time: 0.22 hours
 
 **By Phase:**
 
@@ -30,15 +30,15 @@ Progress: [████████░░] 80% (v1.0 complete, Phase 3 complete,
 | 1. Focus Mode | 2 | 4min | 2min |
 | 2. Pivot Customization | 2 | 3min | 1.5min |
 | 3. Test Infrastructure | 3 | 5min | 1.7min |
-| 4. Integration Tests | 2 | 3min | 1.5min |
+| 4. Integration Tests | 1 | 4min | 4min |
 
 **Recent Trend:**
 - v1.0 completed in <10 minutes total (4 plans)
 - v1.1 Phase 3 completed: 5 min total (1.7 min average)
-- v1.1 Phase 4 in progress: 2 plans at 1.5 min average
-- Trend: Integration tests running efficiently with established patterns
+- v1.1 Phase 4 plan 1 completed: 4 min (fake timer setup took time)
+- Trend: Integration tests establishing patterns for remaining plans
 
-*Updated after 04-02 completion*
+*Updated after 04-01 completion*
 
 ## Accumulated Context
 
@@ -58,8 +58,9 @@ Recent decisions affecting current work:
 - 03-02: Documented emoji .length behavior (surrogate pairs) in tests
 - 03-03: Storage.prototype spy pattern for localStorage mocking
 - 03-03: Test graceful degradation when storage unavailable
-- 04-02: TestComponent wrapper pattern for hook integration testing
-- 04-02: Behavior-focused assertions through DOM verification
+- 04-01: TestComponent wrapper pattern with data-testid for hook state exposure
+- 04-01: Fake timer lifecycle helpers (setup/teardown/advance with act())
+- 04-01: .tsx extension for integration-utils to support JSX
 
 ### Pending Todos
 
@@ -68,13 +69,15 @@ None yet.
 ### Blockers/Concerns
 
 **Phase 4 Remaining:**
-- Fake timer patterns must be established early to avoid deadlock issues with React Testing Library
 - CJK/RTL testing patterns need validation (research suggests IME composition events may need manual dispatch)
 
 **Resolved (Phase 4 Progress):**
+- Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
 - TestComponent wrapper pattern established for hook testing
+- act() wrapper for timer advancements working correctly
+- 22 useRSVP integration tests passing
 - Storage.prototype spy pattern verified working with hooks
-- 17 integration tests passing (7 useLibrary + 10 useSettings)
+- 17 additional integration tests passing (7 useLibrary + 10 useSettings)
 
 **Resolved (Phase 3):**
 - jsdom environment configured (browser APIs available)
@@ -86,8 +89,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 04-02-PLAN.md
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after 04-02 completion*
+*State updated: 2026-01-28 after 04-01 completion*
