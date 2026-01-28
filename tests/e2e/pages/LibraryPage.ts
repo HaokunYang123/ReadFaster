@@ -27,19 +27,21 @@ export class LibraryPage {
     // Library toggle - button with "Library (X)" text
     this.libraryToggle = page.locator('button').filter({ hasText: /Library \(/i });
 
-    // Library container - the expanded section with bg-white/5
-    this.libraryContainer = page.locator('.bg-white\\/5.rounded-xl');
+    // Library container - the expanded section directly after the library toggle button
+    // It's inside a div.mb-6 that contains the library toggle
+    this.libraryContainer = page.locator('.mb-6 > .bg-white\\/5.rounded-xl.p-4');
 
     // Save form elements - appears after clicking "Save current text to library"
     this.saveButton = page.locator('text=+ Save current text to library').or(
       page.locator('button').filter({ hasText: /save current text/i })
     );
-    this.saveTitleInput = page.locator('.bg-white\\/5 input[type="text"]');
-    this.saveConfirmButton = page.locator('.bg-white\\/5 button').filter({ hasText: /^Save$/ });
-    this.saveCancelButton = page.locator('.bg-white\\/5 button').filter({ hasText: /Cancel/i });
+    // The save title input is inside the library container
+    this.saveTitleInput = page.locator('.mb-6 input[type="text"]');
+    this.saveConfirmButton = page.locator('.mb-6 .flex.gap-2 button').filter({ hasText: /^Save$/ });
+    this.saveCancelButton = page.locator('.mb-6 button').filter({ hasText: /Cancel/i });
 
-    // Saved texts list - items within the library container
-    this.savedTextsList = page.locator('.bg-white\\/5.rounded-lg');
+    // Saved texts list - items within the library container (each saved item has rounded-lg)
+    this.savedTextsList = page.locator('.mb-6 .bg-white\\/5.rounded-lg');
   }
 
   /**
@@ -47,10 +49,12 @@ export class LibraryPage {
    */
   async open() {
     // Check if already expanded by looking for the container
-    const isExpanded = await this.libraryContainer.isVisible();
+    // Use count() > 0 to avoid strict mode issues
+    const count = await this.libraryContainer.count();
+    const isExpanded = count > 0 && await this.libraryContainer.first().isVisible();
     if (!isExpanded) {
       await this.libraryToggle.click();
-      await expect(this.libraryContainer).toBeVisible();
+      await expect(this.libraryContainer.first()).toBeVisible();
     }
   }
 
@@ -58,10 +62,11 @@ export class LibraryPage {
    * Close/collapse the library section
    */
   async close() {
-    const isExpanded = await this.libraryContainer.isVisible();
+    const count = await this.libraryContainer.count();
+    const isExpanded = count > 0 && await this.libraryContainer.first().isVisible();
     if (isExpanded) {
       await this.libraryToggle.click();
-      await expect(this.libraryContainer).not.toBeVisible();
+      await expect(this.libraryContainer.first()).not.toBeVisible();
     }
   }
 
@@ -69,7 +74,8 @@ export class LibraryPage {
    * Check if library is expanded
    */
   async isExpanded(): Promise<boolean> {
-    return await this.libraryContainer.isVisible();
+    const count = await this.libraryContainer.count();
+    return count > 0 && await this.libraryContainer.first().isVisible();
   }
 
   /**
@@ -99,8 +105,8 @@ export class LibraryPage {
     // Open library if not already open
     await this.open();
 
-    // Find the item with matching title and click Load
-    const item = this.page.locator('.bg-white\\/5.rounded-lg').filter({ hasText: title });
+    // Find the item with matching title and click Load (within mb-6 which is the library section)
+    const item = this.page.locator('.mb-6 .bg-white\\/5.rounded-lg').filter({ hasText: title });
     const loadButton = item.getByRole('button', { name: /load/i });
     await loadButton.click();
   }
@@ -112,8 +118,8 @@ export class LibraryPage {
     // Open library if not already open
     await this.open();
 
-    // Find the item with matching title and click Delete
-    const item = this.page.locator('.bg-white\\/5.rounded-lg').filter({ hasText: title });
+    // Find the item with matching title and click Delete (within mb-6 which is the library section)
+    const item = this.page.locator('.mb-6 .bg-white\\/5.rounded-lg').filter({ hasText: title });
     const deleteButton = item.getByRole('button', { name: /delete/i });
     await deleteButton.click();
   }
@@ -123,7 +129,7 @@ export class LibraryPage {
    */
   async expectTextInLibrary(title: string) {
     await this.open();
-    const item = this.page.locator('.bg-white\\/5.rounded-lg').filter({ hasText: title });
+    const item = this.page.locator('.mb-6 .bg-white\\/5.rounded-lg').filter({ hasText: title });
     await expect(item).toBeVisible();
   }
 
@@ -132,7 +138,7 @@ export class LibraryPage {
    */
   async expectTextNotInLibrary(title: string) {
     await this.open();
-    const item = this.page.locator('.bg-white\\/5.rounded-lg').filter({ hasText: title });
+    const item = this.page.locator('.mb-6 .bg-white\\/5.rounded-lg').filter({ hasText: title });
     await expect(item).not.toBeVisible();
   }
 
@@ -150,7 +156,7 @@ export class LibraryPage {
    */
   async getAllTitles(): Promise<string[]> {
     await this.open();
-    const items = this.page.locator('.bg-white\\/5.rounded-lg p.text-white.font-medium');
+    const items = this.page.locator('.mb-6 .bg-white\\/5.rounded-lg p.text-white.font-medium');
     const count = await items.count();
     const titles: string[] = [];
     for (let i = 0; i < count; i++) {

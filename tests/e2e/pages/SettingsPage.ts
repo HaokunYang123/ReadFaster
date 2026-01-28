@@ -35,10 +35,12 @@ export class SettingsPage {
     // Close button - the X button in header
     this.closeButton = page.locator('.fixed.inset-0.z-50 button').filter({ hasText: '\u00d7' });
 
-    // Font settings selects - identify by their option values
-    this.fontFamilySelect = page.locator('select').filter({ has: page.locator('option[value="monospace"]') });
-    this.fontWeightSelect = page.locator('select').filter({ has: page.locator('option[value="normal"]') }).filter({ has: page.locator('option[value="bold"]') });
-    this.fontSizeSelect = page.locator('select').filter({ has: page.locator('option[value="small"]') });
+    // Font settings selects - use nth() since selects are in specific order in the modal
+    // Order in SettingsModal: Font Family, Font Weight, Font Size
+    const modalSelects = page.locator('.fixed.inset-0.z-50 select');
+    this.fontFamilySelect = modalSelects.nth(0);  // First select: Font Family
+    this.fontWeightSelect = modalSelects.nth(1);  // Second select: Font Weight
+    this.fontSizeSelect = modalSelects.nth(2);    // Third select: Font Size
 
     // Pivot highlight controls
     this.pivotHighlightCheckbox = page.locator('input[type="checkbox"]');
