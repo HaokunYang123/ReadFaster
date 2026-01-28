@@ -145,4 +145,170 @@ describe('storage utilities', () => {
       })
     })
   })
+
+  describe('library management', () => {
+    const createMockText = (overrides?: Partial<SavedText>): SavedText => ({
+      id: 'test-123',
+      title: 'Test Title',
+      content: 'Test content here',
+      savedAt: Date.now(),
+      lastPosition: 0,
+      wordCount: 3,
+      ...overrides,
+    })
+
+    describe('loadLibrary', () => {
+      it('returns empty array when no library exists', () => {
+        getItemSpy.mockReturnValue(null)
+
+        const result = loadLibrary()
+
+        expect(result).toEqual([])
+      })
+
+      it('returns parsed library when data exists', () => {
+        const library: SavedText[] = [
+          createMockText({ id: '1', title: 'First' }),
+          createMockText({ id: '2', title: 'Second' }),
+        ]
+        getItemSpy.mockReturnValue(JSON.stringify(library))
+
+        const result = loadLibrary()
+
+        expect(result).toEqual(library)
+      })
+
+      it('returns empty array when JSON parsing fails', () => {
+        getItemSpy.mockReturnValue('invalid json{')
+
+        const result = loadLibrary()
+
+        expect(result).toEqual([])
+      })
+    })
+
+    describe('saveToLibrary', () => {
+      it('adds new text to beginning of library', () => {
+        const existingLibrary: SavedText[] = [
+          createMockText({ id: '1', title: 'First' }),
+        ]
+        getItemSpy.mockReturnValue(JSON.stringify(existingLibrary))
+
+        const newText = createMockText({ id: '2', title: 'New' })
+        saveToLibrary(newText)
+
+        // Find the library save call
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        expect(libraryCall).toBeDefined()
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved[0]).toEqual(newText)
+        expect(saved.length).toBe(2)
+      })
+
+      it('updates existing text by id', () => {
+        const existingText = createMockText({ id: 'update-me', title: 'Old' })
+        getItemSpy.mockReturnValue(JSON.stringify([existingText]))
+
+        const updatedText = createMockText({ id: 'update-me', title: 'New' })
+        saveToLibrary(updatedText)
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(1)
+        expect(saved[0].title).toBe('New')
+      })
+
+      it('limits library to 50 items', () => {
+        const fiftyItems: SavedText[] = Array.from({ length: 50 }, (_, i) =>
+          createMockText({ id: `item-${i}`, title: `Item ${i}` })
+        )
+        getItemSpy.mockReturnValue(JSON.stringify(fiftyItems))
+
+        const newText = createMockText({ id: 'new', title: 'New' })
+        saveToLibrary(newText)
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(50)
+        expect(saved[0]).toEqual(newText)
+      })
+
+      it('preserves other items when adding new', () => {
+        const existingLibrary: SavedText[] = [
+          createMockText({ id: '1', title: 'First' }),
+          createMockText({ id: '2', title: 'Second' }),
+        ]
+        getItemSpy.mockReturnValue(JSON.stringify(existingLibrary))
+
+        const newText = createMockText({ id: '3', title: 'Third' })
+        saveToLibrary(newText)
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(3)
+        expect(saved[1].id).toBe('1')
+        expect(saved[2].id).toBe('2')
+      })
+    })
+
+    describe('removeFromLibrary', () => {
+      it('removes text with matching id', () => {
+        const library: SavedText[] = [
+          createMockText({ id: 'remove-me', title: 'Remove' }),
+          createMockText({ id: 'keep-me', title: 'Keep' }),
+        ]
+        getItemSpy.mockReturnValue(JSON.stringify(library))
+
+        removeFromLibrary('remove-me')
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(1)
+        expect(saved[0].id).toBe('keep-me')
+      })
+
+      it('preserves other items when removing', () => {
+        const library: SavedText[] = [
+          createMockText({ id: '1', title: 'First' }),
+          createMockText({ id: '2', title: 'Second' }),
+          createMockText({ id: '3', title: 'Third' }),
+        ]
+        getItemSpy.mockReturnValue(JSON.stringify(library))
+
+        removeFromLibrary('2')
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(2)
+        expect(saved.find((t) => t.id === '1')).toBeDefined()
+        expect(saved.find((t) => t.id === '3')).toBeDefined()
+      })
+
+      it('handles removing non-existent id gracefully', () => {
+        const library: SavedText[] = [createMockText({ id: '1' })]
+        getItemSpy.mockReturnValue(JSON.stringify(library))
+
+        // Should not throw error
+        expect(() => removeFromLibrary('non-existent')).not.toThrow()
+
+        const libraryCall = setItemSpy.mock.calls.find(
+          (call) => call[0] === 'readfaster_library'
+        )
+        const saved = JSON.parse(libraryCall![1] as string) as SavedText[]
+        expect(saved.length).toBe(1)
+      })
+    })
+  })
 })
