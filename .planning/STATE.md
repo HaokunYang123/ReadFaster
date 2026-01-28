@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-28)
 ## Current Position
 
 Phase: 5 of 5 (E2E Tests & CI/CD)
-Plan: 2 of 4 (Reading Flow & Keyboard E2E Tests) - complete
+Plan: 3 of 4 (Focus Mode, Settings, Library E2E Tests) - complete
 Status: In progress
-Last activity: 2026-01-28 - Completed 05-02-PLAN.md
+Last activity: 2026-01-28 - Completed 05-03-PLAN.md
 
-Progress: [██████████] 94% (v1.0 complete, Phases 3-4 complete, 05-01, 05-02 done)
+Progress: [██████████] 96% (v1.0 complete, Phases 3-4 complete, 05-01, 05-02, 05-03 done)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 2.2 min
-- Total execution time: 0.44 hours
+- Total plans completed: 13
+- Average duration: 2.5 min
+- Total execution time: 0.55 hours
 
 **By Phase:**
 
@@ -31,15 +31,15 @@ Progress: [██████████] 94% (v1.0 complete, Phases 3-4 comple
 | 2. Pivot Customization | 2 | 3min | 1.5min |
 | 3. Test Infrastructure | 3 | 5min | 1.7min |
 | 4. Integration Tests | 3 | 9min | 3min |
-| 5. E2E Tests & CI/CD | 2 | 12min | 6min |
+| 5. E2E Tests & CI/CD | 3 | 21min | 7min |
 
 **Recent Trend:**
 - v1.0 completed in <10 minutes total (4 plans)
 - v1.1 Phase 3 completed: 5 min total (1.7 min average)
 - v1.1 Phase 4 completed: 9 min total (3 min average)
-- v1.1 Phase 5 in progress: 12 min (05-01: 4min, 05-02: 8min)
+- v1.1 Phase 5 in progress: 21 min (05-01: 4min, 05-02: 8min, 05-03: 9min)
 
-*Updated after 05-02 completion*
+*Updated after 05-03 completion*
 
 ## Accumulated Context
 
@@ -72,6 +72,9 @@ Recent decisions affecting current work:
 - 05-02: blurInputs() helper for reliable keyboard shortcut testing
 - 05-02: 250ms debounce wait for space key (app has 200ms debounce)
 - 05-02: toBeEnabled() assertion for WebKit compatibility
+- 05-03: Use nth() for select/swatch elements to avoid ambiguous selectors
+- 05-03: Use .mb-6 prefix to scope library selectors
+- 05-03: Verify localStorage directly via page.evaluate()
 
 ### Pending Todos
 
@@ -81,14 +84,19 @@ None yet.
 
 **Phase 5 In Progress:**
 - E2E infrastructure complete (Playwright + POM classes)
-- Reading flow and keyboard E2E tests complete (72 tests, 3 browsers)
-- Ready for 05-03 (focus mode, settings, library E2E tests)
+- Reading flow and keyboard E2E tests complete
+- Focus mode, settings, and library E2E tests complete
+- 45 E2E tests passing on chromium
+- Ready for 05-04 (CI/CD pipeline)
 
 **Resolved (Phase 5):**
 - Port conflict resolved (using port 3001)
 - Input focus issues resolved (blurInputs() helper)
 - Debounce handling established (250ms wait between space keys)
 - Cross-browser compatibility verified (Chromium, Firefox, WebKit)
+- LibraryPage selector conflicts resolved (.mb-6 prefix)
+- SettingsPage select disambiguation resolved (nth() indexing)
+- localStorage key mismatch fixed (underscores not hyphens)
 
 **Resolved (Phase 4):**
 - Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
@@ -110,8 +118,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 05-02-PLAN.md
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after 05-02 completion*
+*State updated: 2026-01-28 after 05-03 completion*
