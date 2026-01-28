@@ -29,14 +29,14 @@ Requirements for reliability and testing milestone. Each maps to roadmap phases.
 
 ### Integration Tests
 
-- [ ] **INTG-01**: `useRSVP` hook tested with fake timers for playback
-- [ ] **INTG-02**: `useRSVP` hook tested for play/pause/reset state transitions
-- [ ] **INTG-03**: `useLibrary` hook tested with localStorage persistence
-- [ ] **INTG-04**: `useSettings` hook tested with default values and updates
-- [ ] **INTG-05**: `WordDisplay` component renders pivot correctly
-- [ ] **INTG-06**: `Controls` component handles user interactions
-- [ ] **INTG-07**: `SettingsModal` component updates settings state
-- [ ] **INTG-08**: Components tested with multi-language text rendering
+- [x] **INTG-01**: `useRSVP` hook tested with fake timers for playback
+- [x] **INTG-02**: `useRSVP` hook tested for play/pause/reset state transitions
+- [x] **INTG-03**: `useLibrary` hook tested with localStorage persistence
+- [x] **INTG-04**: `useSettings` hook tested with default values and updates
+- [x] **INTG-05**: `WordDisplay` component renders pivot correctly
+- [x] **INTG-06**: `Controls` component handles user interactions
+- [x] **INTG-07**: `SettingsModal` component updates settings state
+- [x] **INTG-08**: Components tested with multi-language text rendering
 
 ### E2E Tests
 
@@ -100,14 +100,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UNIT-07 | Phase 3 | Complete |
 | UNIT-08 | Phase 3 | Complete |
 | UNIT-09 | Phase 3 | Complete |
-| INTG-01 | Phase 4 | Pending |
-| INTG-02 | Phase 4 | Pending |
-| INTG-03 | Phase 4 | Pending |
-| INTG-04 | Phase 4 | Pending |
-| INTG-05 | Phase 4 | Pending |
-| INTG-06 | Phase 4 | Pending |
-| INTG-07 | Phase 4 | Pending |
-| INTG-08 | Phase 4 | Pending |
+| INTG-01 | Phase 4 | Complete |
+| INTG-02 | Phase 4 | Complete |
+| INTG-03 | Phase 4 | Complete |
+| INTG-04 | Phase 4 | Complete |
+| INTG-05 | Phase 4 | Complete |
+| INTG-06 | Phase 4 | Complete |
+| INTG-07 | Phase 4 | Complete |
+| INTG-08 | Phase 4 | Complete |
 | E2E-01 | Phase 5 | Pending |
 | E2E-02 | Phase 5 | Pending |
 | E2E-03 | Phase 5 | Pending |
@@ -128,4 +128,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 after Phase 3 completion*
+*Last updated: 2026-01-28 after Phase 4 completion*
