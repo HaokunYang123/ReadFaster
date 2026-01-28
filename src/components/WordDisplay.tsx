@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { splitWordByPivot } from '@/utils/rsvp';
+import { useSettings } from '@/hooks/useSettings';
 
 interface WordDisplayProps {
   word: string;
@@ -12,6 +13,7 @@ interface WordDisplayProps {
 export function WordDisplay({ word, containerRef, onPause }: WordDisplayProps) {
   const [offset, setOffset] = useState<number | null>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
+  const { settings } = useSettings();
 
   useEffect(() => {
     if (!word || !containerRef.current) {
@@ -60,7 +62,11 @@ export function WordDisplay({ word, containerRef, onPause }: WordDisplayProps) {
     return (
       <div
         className="word-display text-white/40 text-2xl cursor-pointer"
-        style={{ left: '50%', transform: 'translateX(-50%)' }}
+        style={{
+          left: '50%',
+          transform: 'translateX(-50%)',
+          '--pivot-color': settings.pivotColor,
+        } as React.CSSProperties}
         onClick={handleClick}
         role="button"
         tabIndex={0}
@@ -80,11 +86,12 @@ export function WordDisplay({ word, containerRef, onPause }: WordDisplayProps) {
 
   return (
     <div
-      className="word-display cursor-pointer"
+      className={`word-display cursor-pointer ${!settings.showPivotHighlight ? 'no-highlight' : ''}`}
       style={{
         left: offset !== null ? `${offset}px` : '50%',
         transform: offset === null ? 'translateX(-50%)' : 'none',
-      }}
+        '--pivot-color': settings.pivotColor,
+      } as React.CSSProperties}
       onClick={handleClick}
       role="button"
       tabIndex={0}
