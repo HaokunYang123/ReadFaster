@@ -28,18 +28,16 @@ Users can read text faster by focusing on one word at a time with the pivot lett
 - ✓ Click-to-pause in focus mode — v1.0
 - ✓ 200ms debounced play/pause for smooth transitions — v1.0
 - ✓ Enhanced focus mode styling (95% dim, responsive scaling) — v1.0
+- ✓ Comprehensive test suite with Vitest (81 unit tests) — v1.1
+- ✓ Integration tests for React hooks and components (116 tests) — v1.1
+- ✓ E2E tests for critical user workflows (45 tests across 3 browsers) — v1.1
+- ✓ Multi-language text handling verified (CJK, RTL, accented, emoji) — v1.1
+- ✓ 91%+ test coverage with CI/CD enforcement at 75% threshold — v1.1
+- ✓ GitHub Actions pipeline with automated quality gates — v1.1
 
 ### Active
 
-**Milestone v1.1: Reliability & Testing**
-
-- [ ] Comprehensive test suite with Vitest
-- [ ] Unit tests for all utility functions (rsvp.ts, storage.ts)
-- [ ] Integration tests for React components and hooks
-- [ ] E2E tests for critical user workflows
-- [ ] Multi-language text handling verification (CJK, RTL, accented, emoji)
-- [ ] Edge case coverage (empty, single word, very long, special chars)
-- [ ] Pivot algorithm validation across all word types
+(None — awaiting next milestone definition)
 
 ### Out of Scope
 
@@ -49,12 +47,21 @@ Users can read text faster by focusing on one word at a time with the pivot lett
 
 ## Context
 
-Shipped v1.0 with 2,037 LOC TypeScript/CSS. Existing RSVP reader enhanced with:
+Shipped v1.1 with 7,276 LOC TypeScript (+17,015 net from v1.0).
+
+**v1.0 enhancements:**
 - Focus mode is now derived state (`isPlaying && !isComplete`), not persisted
 - CSS variables for pivot theming (`--pivot-color`)
 - Settings spread-merge pattern for backward-compatible defaults
 
-Tech stack: Next.js 14, React 18, TypeScript, Tailwind CSS.
+**v1.1 additions:**
+- 242 total tests (81 unit, 116 integration, 45 E2E)
+- 91%+ test coverage with critical paths (rsvp.ts, hooks) at 96-100%
+- Vitest + React Testing Library + Playwright test stack
+- GitHub Actions CI/CD pipeline with coverage enforcement
+- Page Object Model pattern for maintainable E2E tests
+
+Tech stack: Next.js 14, React 18, TypeScript, Tailwind CSS, Vitest, Playwright.
 
 ## Constraints
 
@@ -76,6 +83,13 @@ Tech stack: Next.js 14, React 18, TypeScript, Tailwind CSS.
 | 6 vibrant preset colors | High contrast against dark background | ✓ Good |
 | .no-highlight class for toggle | Cleaner separation of concerns | ✓ Good |
 | Settings auto-pause on open | Ensures modal visibility and accessibility | ✓ Good |
+| jsdom environment for tests | Browser API emulation (localStorage, DOM) | ✓ Good |
+| Unicode fixture corpus | Comprehensive multi-language test coverage | ✓ Good |
+| TestComponent wrapper pattern | Clean hook testing with state exposure | ✓ Good |
+| Fake timer helpers | Reliable timing tests with act() wrapper | ✓ Good |
+| Page Object Model for E2E | Maintainable, reusable E2E test code | ✓ Good |
+| Sequential CI jobs | E2E runs only after unit/integration pass | ✓ Good |
+| 75% coverage threshold | Quality gate without diminishing returns | ✓ Good |
 
 ---
-*Last updated: 2026-01-28 after v1.1 milestone started*
+*Last updated: 2026-01-28 after v1.1 milestone complete*

@@ -5,126 +5,51 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Users can read text faster by focusing on one word at a time with the pivot letter centered and highlighted.
-**Current focus:** v1.1 Milestone Complete
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 5 of 5 (E2E Tests & CI/CD) - COMPLETE
-Plan: 4 of 4 (CI/CD Pipeline) - complete
-Status: Milestone verified and complete
-Last activity: 2026-01-28 — v1.1 Milestone Complete
+Phase: 5 of 5 complete
+Plan: All plans complete
+Status: Ready for next milestone
+Last activity: 2026-01-28 — v1.1 milestone archived
 
-Progress: [██████████] 100% (v1.0 complete, all v1.1 phases complete)
+Progress: [##########] 100% (v1.0 + v1.1 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
-- Average duration: 2.7 min
-- Total execution time: 0.65 hours
+- Total plans completed: 14 (v1.0: 4, v1.1: 10)
+- Total test count: 242 (81 unit, 116 integration, 45 E2E)
+- Test coverage: 91%+ overall, 96-100% critical paths
 
-**By Phase:**
+**By Milestone:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 1. Focus Mode | 2 | 4min | 2min |
-| 2. Pivot Customization | 2 | 3min | 1.5min |
-| 3. Test Infrastructure | 3 | 5min | 1.7min |
-| 4. Integration Tests | 3 | 9min | 3min |
-| 5. E2E Tests & CI/CD | 4 | 26min | 6.5min |
-
-**Recent Trend:**
-- v1.0 completed in <10 minutes total (4 plans)
-- v1.1 Phase 3 completed: 5 min total (1.7 min average)
-- v1.1 Phase 4 completed: 9 min total (3 min average)
-- v1.1 Phase 5 completed: 26 min total (05-01: 4min, 05-02: 8min, 05-03: 9min, 05-04: 5min)
-
-*Updated after 05-04 completion*
+| Milestone | Phases | Plans | Duration |
+|-----------|--------|-------|----------|
+| v1.0 Enhancement | 2 | 4 | 2 days |
+| v1.1 Reliability & Testing | 3 | 10 | 1 day |
 
 ## Accumulated Context
 
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- v1.0: Auto-activate focus mode (eliminates toggle, simpler UX)
-- v1.0: Preset colors over color picker (faster implementation, cleaner UI)
-- v1.0: Focus mode as derived state (no persistence needed)
-- v1.0: CSS variables for pivot theming (runtime changes without JS recalc)
-- 03-01: Text reporter only for coverage (avoids report bloat)
-- 03-01: jsdom environment for browser API emulation
-- 03-01: Unicode fixtures with surrogate pair documentation
-- 03-02: Fixed fixtures.ts multi-word bug (Sao Paulo -> Sao)
-- 03-02: Documented emoji .length behavior (surrogate pairs) in tests
-- 03-03: Storage.prototype spy pattern for localStorage mocking
-- 03-03: Test graceful degradation when storage unavailable
-- 04-01: TestComponent wrapper pattern with data-testid for hook state exposure
-- 04-01: Fake timer lifecycle helpers (setup/teardown/advance with act())
-- 04-01: .tsx extension for integration-utils to support JSX
-- 04-03: vi.mock for useSettings to control pivot settings in component tests
-- 04-03: Mock containerRef pattern for layout-dependent components
-- 04-03: getSelectByIndex helper for unlabeled form controls
-- 05-01: Semantic selectors (getByRole, getByLabel) preferred over data-testid
-- 05-01: Page Object Model pattern for E2E test interactions
-- 05-01: webServer config uses npm run dev for faster local iteration
-- 05-02: Playwright port 3001 to avoid conflicts with other dev servers
-- 05-02: blurInputs() helper for reliable keyboard shortcut testing
-- 05-02: 250ms debounce wait for space key (app has 200ms debounce)
-- 05-02: toBeEnabled() assertion for WebKit compatibility
-- 05-03: Use nth() for select/swatch elements to avoid ambiguous selectors
-- 05-03: Use .mb-6 prefix to scope library selectors
-- 05-03: Verify localStorage directly via page.evaluate()
-- 05-04: Sequential CI jobs (unit/integration -> E2E) using needs keyword
-- 05-04: No Playwright browser caching (restore time = download time)
-- 05-04: Upload artifacts only on failure to save storage
-- 05-04: 75% coverage threshold, 70% for branches
+Full milestone history in archived ROADMAP files.
 
 ### Pending Todos
 
-None - all phases complete.
+None - awaiting next milestone definition.
 
 ### Blockers/Concerns
 
-**Phase 5 Complete:**
-- E2E infrastructure complete (Playwright + POM classes)
-- All E2E tests passing (45 tests across reading flow, keyboard, focus mode, settings, library)
-- CI/CD pipeline operational (GitHub Actions)
-- Coverage thresholds enforced (75% minimum, 91%+ actual)
-- 197 unit/integration tests + 45 E2E tests = 242 total tests
-
-**Resolved (Phase 5):**
-- Port conflict resolved (using port 3001)
-- Input focus issues resolved (blurInputs() helper)
-- Debounce handling established (250ms wait between space keys)
-- Cross-browser compatibility verified (Chromium, Firefox, WebKit)
-- LibraryPage selector conflicts resolved (.mb-6 prefix)
-- SettingsPage select disambiguation resolved (nth() indexing)
-- localStorage key mismatch fixed (underscores not hyphens)
-- Vitest/Playwright conflict resolved (exclude E2E tests from Vitest)
-
-**Resolved (Phase 4):**
-- Fake timer patterns established (setupFakeTimers, teardownFakeTimers, advanceTimers)
-- TestComponent wrapper pattern established for hook testing
-- act() wrapper for timer advancements working correctly
-- 22 useRSVP integration tests passing
-- Storage.prototype spy pattern verified working with hooks
-- 17 additional integration tests passing (7 useLibrary + 10 useSettings)
-- 77 component integration tests passing (19 WordDisplay + 30 Controls + 28 SettingsModal)
-- CJK/RTL/emoji rendering verified via smoke tests (INTG-08)
-
-**Resolved (Phase 3):**
-- jsdom environment configured (browser APIs available)
-- Path alias resolution working in tests
-- Unicode test fixtures ready for multi-language testing
-- localStorage mocking pattern established (Storage.prototype spies)
-- All storage utilities tested with graceful degradation
+None - project ready for next milestone.
 
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: v1.1 Milestone Complete
+Stopped at: v1.1 milestone complete and archived
 Resume file: None
 
 ---
-*State updated: 2026-01-28 after v1.1 completion*
+*State updated: 2026-01-28 after v1.1 archival*
